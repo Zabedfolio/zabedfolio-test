@@ -6,9 +6,6 @@ import {
   HiOutlinePencil,
   HiOutlineTrash,
   HiOutlineSelector,
-  HiOutlineEye,
-  HiOutlineCode,
-  HiOutlineCheck,
 } from "react-icons/hi";
 
 export default function AdminProjects() {
@@ -108,14 +105,12 @@ export default function AdminProjects() {
     try {
       let res;
       if (editingProject) {
-        // Update
         res = await fetch(`/api/admin/projects/${editingProject._id}`, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
       } else {
-        // Create
         res = await fetch("/api/admin/projects", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -149,7 +144,6 @@ export default function AdminProjects() {
     }
   };
 
-  // HTML5 Drag and Drop handlers
   const handleDragStart = (index) => {
     setDraggedIndex(index);
   };
@@ -169,7 +163,6 @@ export default function AdminProjects() {
 
   const handleDragEnd = async () => {
     setDraggedIndex(null);
-    // Persist new order in DB
     const reorderedList = projects.map((p, idx) => ({
       id: p._id,
       order: idx,
@@ -190,12 +183,12 @@ export default function AdminProjects() {
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">Projects Showcase</h1>
-          <p className="mt-2 text-sm text-white/55">Drag items to rearrange public sorting order</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-[#1a1a1a]">Projects Showcase</h1>
+          <p className="mt-1 text-sm font-medium text-black/50">Drag items to rearrange public sorting order</p>
         </div>
         <button
           onClick={openAddModal}
-          className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#ff4d00] hover:bg-[#e04300] text-sm font-semibold text-white transition active:scale-[0.98] self-start sm:self-auto"
+          className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#ff5f1a] hover:bg-[#e04d0d] text-xs font-bold text-white shadow-md shadow-[#ff5f1a]/20 transition active:scale-[0.98] self-start sm:self-auto"
         >
           <HiOutlinePlus className="text-lg" /> Add Project
         </button>
@@ -204,17 +197,17 @@ export default function AdminProjects() {
       {loading ? (
         <div className="space-y-4">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-20 rounded-xl glass-panel animate-pulse" />
+            <div key={i} className="h-20 rounded-2xl bg-white border border-black/8 animate-pulse shadow-sm" />
           ))}
         </div>
       ) : (
-        <div className="border border-white/5 bg-[#0a0808]/40 rounded-2xl overflow-hidden">
+        <div className="border border-black/8 bg-white rounded-3xl overflow-hidden shadow-sm">
           {projects.length === 0 ? (
-            <div className="p-12 text-center text-white/40 text-sm">
+            <div className="p-12 text-center text-black/40 text-sm font-medium">
               No projects added yet. Click "Add Project" to get started.
             </div>
           ) : (
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-black/5">
               {projects.map((project, idx) => (
                 <div
                   key={project._id}
@@ -222,29 +215,29 @@ export default function AdminProjects() {
                   onDragStart={() => handleDragStart(idx)}
                   onDragOver={(e) => handleDragOver(e, idx)}
                   onDragEnd={handleDragEnd}
-                  className={`flex items-center justify-between p-4 sm:p-5 transition hover:bg-white/[0.01] ${
-                    draggedIndex === idx ? "opacity-35 bg-white/[0.05]" : ""
+                  className={`flex items-center justify-between p-4 sm:p-5 transition hover:bg-black/3 ${
+                    draggedIndex === idx ? "opacity-35 bg-black/5" : ""
                   }`}
                 >
                   <div className="flex items-center gap-4 min-w-0">
-                    <span className="cursor-grab text-white/30 hover:text-[#ff4d00] p-1 transition active:cursor-grabbing">
+                    <span className="cursor-grab text-black/30 hover:text-[#ff5f1a] p-1 transition active:cursor-grabbing">
                       <HiOutlineSelector className="text-xl" />
                     </span>
                     {project.image && (
                       <img
                         src={project.image}
                         alt={project.title}
-                        className="w-12 h-12 rounded-lg object-cover bg-white/5 border border-white/10 hidden sm:block"
+                        className="w-12 h-12 rounded-xl object-cover bg-black/4 border border-black/8 hidden sm:block"
                       />
                     )}
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-white truncate">{project.title}</span>
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/5 border border-white/5 text-white/60">
+                        <span className="font-bold text-[#1a1a1a] truncate">{project.title}</span>
+                        <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-black/4 border border-black/8 text-black/60">
                           {project.category}
                         </span>
                       </div>
-                      <p className="text-xs text-white/40 truncate max-w-lg mt-1">
+                      <p className="text-xs text-black/50 truncate max-w-lg mt-1 font-normal">
                         {project.description}
                       </p>
                     </div>
@@ -253,13 +246,13 @@ export default function AdminProjects() {
                   <div className="flex items-center gap-2 ml-4">
                     <button
                       onClick={() => openEditModal(project)}
-                      className="p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/[0.05] transition"
+                      className="p-2 text-black/50 hover:text-[#1a1a1a] rounded-xl hover:bg-black/5 transition"
                     >
                       <HiOutlinePencil className="text-lg" />
                     </button>
                     <button
                       onClick={() => handleDelete(project._id)}
-                      className="p-2 text-white/40 hover:text-red-400 rounded-lg hover:bg-red-500/5 transition"
+                      className="p-2 text-black/40 hover:text-red-600 rounded-xl hover:bg-red-500/10 transition"
                     >
                       <HiOutlineTrash className="text-lg" />
                     </button>
@@ -273,9 +266,9 @@ export default function AdminProjects() {
 
       {/* Editor Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/85 backdrop-blur-md p-4 sm:p-6 flex justify-center items-start">
-          <div className="relative w-full max-w-4xl glass-panel border border-white/10 bg-[#0a0808]/95 rounded-3xl p-6 sm:p-8 my-8 shadow-card-soft">
-            <h2 className="text-2xl font-bold text-white mb-6">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/30 backdrop-blur-sm p-4 sm:p-6 flex justify-center items-start">
+          <div className="relative w-full max-w-4xl bg-white border border-black/10 rounded-3xl p-6 sm:p-8 my-8 shadow-2xl">
+            <h2 className="text-2xl font-extrabold text-[#1a1a1a] mb-6">
               {editingProject ? "Edit Project Details" : "Create New Project"}
             </h2>
 
@@ -283,7 +276,7 @@ export default function AdminProjects() {
               {/* Row 1: Title, Category, Year */}
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Project Title
                   </label>
                   <input
@@ -293,19 +286,19 @@ export default function AdminProjects() {
                     value={formData.title}
                     onChange={handleInputChange}
                     placeholder="e.g. Taskly"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5 focus:ring-1 focus:ring-[#ff4d00]/30"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Category
                   </label>
                   <select
                     name="category"
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="w-full rounded-xl border border-white/10 bg-[#0c0a0a] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   >
                     <option value="Full Stack">Full Stack</option>
                     <option value="Frontend">Frontend</option>
@@ -317,7 +310,7 @@ export default function AdminProjects() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Release Year
                   </label>
                   <input
@@ -327,7 +320,7 @@ export default function AdminProjects() {
                     value={formData.year}
                     onChange={handleInputChange}
                     placeholder="e.g. 2026"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
               </div>
@@ -335,7 +328,7 @@ export default function AdminProjects() {
               {/* Row 2: Image URL, Tech tags */}
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Mockup Image URL
                   </label>
                   <input
@@ -344,12 +337,12 @@ export default function AdminProjects() {
                     value={formData.image}
                     onChange={handleInputChange}
                     placeholder="https://example.com/mockup.png"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Tags / Tech Stack (comma separated)
                   </label>
                   <input
@@ -358,14 +351,14 @@ export default function AdminProjects() {
                     value={formData.tags}
                     onChange={handleInputChange}
                     placeholder="Next.js, React, Tailwind CSS, MongoDB"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
               </div>
 
               {/* Row 3: Short Description */}
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                   Short Description
                 </label>
                 <textarea
@@ -375,14 +368,14 @@ export default function AdminProjects() {
                   value={formData.description}
                   onChange={handleInputChange}
                   placeholder="A brief overview of the project scope and purpose..."
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                 />
               </div>
 
               {/* Row 4: Challenges & Improvements */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Development Challenges
                   </label>
                   <textarea
@@ -391,12 +384,12 @@ export default function AdminProjects() {
                     value={formData.challenge}
                     onChange={handleInputChange}
                     placeholder="What was the main engineering challenge you solved?"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Future Improvements
                   </label>
                   <textarea
@@ -405,7 +398,7 @@ export default function AdminProjects() {
                     value={formData.improvements}
                     onChange={handleInputChange}
                     placeholder="What would you add or refactor in future versions?"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
               </div>
@@ -413,7 +406,7 @@ export default function AdminProjects() {
               {/* Row 5: Live URL, Github URL */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     Live Booking / App URL
                   </label>
                   <input
@@ -422,12 +415,12 @@ export default function AdminProjects() {
                     value={formData.liveUrl}
                     onChange={handleInputChange}
                     placeholder="https://myproject.com"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
                     GitHub Code Repository URL
                   </label>
                   <input
@@ -436,23 +429,23 @@ export default function AdminProjects() {
                     value={formData.githubUrl}
                     onChange={handleInputChange}
                     placeholder="https://github.com/Zabedfolio/..."
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none focus:ring-2 focus:ring-[#ff5f1a]/20"
                   />
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-5 border-t border-white/5">
+              <div className="flex items-center justify-end gap-3 pt-5 border-t border-black/8">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-5 py-3 rounded-xl border border-white/10 hover:bg-white/[0.03] text-sm font-semibold text-white/80 transition"
+                  className="px-5 py-3 rounded-2xl border border-black/10 bg-black/4 text-xs font-bold text-[#1a1a1a] hover:bg-black/8 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff4d00] hover:bg-[#e04300] text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#ff5f1a] hover:bg-[#e04d0d] text-xs font-bold text-white transition active:scale-[0.98] disabled:opacity-50 shadow-md shadow-[#ff5f1a]/20"
                 >
                   {saving ? (
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />

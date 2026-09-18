@@ -187,12 +187,12 @@ export default function AdminExperience() {
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">Timeline: Experience</h1>
-          <p className="mt-2 text-sm text-white/55">Rearrange timeline order of professional work experience</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Timeline: Experience</h1>
+          <p className="mt-2 text-sm text-black/50">Rearrange timeline order of professional work experience</p>
         </div>
         <button
           onClick={openAddModal}
-          className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#ff4d00] hover:bg-[#e04300] text-sm font-semibold text-white transition active:scale-[0.98] self-start sm:self-auto"
+          className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#ff5f1a] hover:bg-[#e04d0d] text-sm font-semibold text-white transition active:scale-[0.98] shadow-sm self-start sm:self-auto"
         >
           <HiOutlinePlus className="text-lg" /> Add Experience
         </button>
@@ -201,17 +201,17 @@ export default function AdminExperience() {
       {loading ? (
         <div className="space-y-3">
           {[...Array(3)].map((_, i) => (
-            <div key={i} className="h-16 rounded-xl glass-panel animate-pulse" />
+            <div key={i} className="h-16 rounded-2xl bg-white border border-black/8 animate-pulse" />
           ))}
         </div>
       ) : (
-        <div className="border border-white/5 bg-[#0a0808]/40 rounded-2xl overflow-hidden">
+        <div className="border border-black/8 bg-white rounded-2xl overflow-hidden shadow-sm">
           {exp.length === 0 ? (
-            <div className="p-12 text-center text-white/40 text-sm">
+            <div className="p-12 text-center text-black/40 text-sm">
               No experience records found. Click "Add Experience" to create one.
             </div>
           ) : (
-            <div className="divide-y divide-white/5">
+            <div className="divide-y divide-black/5">
               {exp.map((item, idx) => (
                 <div
                   key={item._id}
@@ -219,30 +219,30 @@ export default function AdminExperience() {
                   onDragStart={() => handleDragStart(idx)}
                   onDragOver={(e) => handleDragOver(e, idx)}
                   onDragEnd={handleDragEnd}
-                  className={`flex items-center justify-between p-4 sm:p-5 transition hover:bg-white/[0.01] ${
-                    draggedIndex === idx ? "opacity-35 bg-white/[0.05]" : ""
+                  className={`flex items-center justify-between p-4 sm:p-5 transition hover:bg-black/2 ${
+                    draggedIndex === idx ? "opacity-35 bg-black/5" : ""
                   }`}
                 >
                   <div className="flex items-center gap-4 min-w-0">
-                    <span className="cursor-grab text-white/20 hover:text-[#ff4d00] p-1 transition active:cursor-grabbing">
+                    <span className="cursor-grab text-black/30 hover:text-[#ff5f1a] p-1 transition active:cursor-grabbing">
                       <HiOutlineSelector className="text-lg" />
                     </span>
                     <div className="min-w-0">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-white truncate text-sm">
+                        <h3 className="font-semibold text-[#1a1a1a] truncate text-sm">
                           {item.institution} {item.company ? `@ ${item.company}` : ""}
                         </h3>
                         <span
                           className={`text-[9px] font-mono px-2 py-0.5 rounded-full border ${
                             item.active
-                              ? "bg-green-500/10 text-green-400 border-green-500/20"
-                              : "bg-white/5 text-white/40 border-white/5"
+                              ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                              : "bg-black/5 text-black/40 border-black/10"
                           }`}
                         >
                           {item.active ? "Active" : "Inactive"}
                         </span>
                       </div>
-                      <p className="text-xs text-white/40 mt-1 truncate">
+                      <p className="text-xs text-black/50 mt-1 truncate">
                         {item.startDate && item.endDate ? `${item.startDate} — ${item.endDate}` : item.date}
                         {item.location ? ` • ${item.location}` : ""} &bull; {item.detail}
                       </p>
@@ -252,13 +252,13 @@ export default function AdminExperience() {
                   <div className="flex items-center gap-2 ml-4">
                     <button
                       onClick={() => openEditModal(item)}
-                      className="p-2 text-white/50 hover:text-white rounded-lg hover:bg-white/[0.05] transition"
+                      className="p-2 text-black/40 hover:text-blue-600 rounded-xl hover:bg-blue-50 transition duration-200"
                     >
                       <HiOutlinePencil className="text-lg" />
                     </button>
                     <button
                       onClick={() => handleDelete(item._id)}
-                      className="p-2 text-white/40 hover:text-red-400 rounded-lg hover:bg-red-500/5 transition"
+                      className="p-2 text-black/40 hover:text-red-600 rounded-xl hover:bg-red-50 transition duration-200"
                     >
                       <HiOutlineTrash className="text-lg" />
                     </button>
@@ -272,15 +272,15 @@ export default function AdminExperience() {
 
       {/* Editor Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="w-full max-w-md glass-panel border border-white/10 bg-[#0a0808] rounded-3xl p-6 sm:p-8 shadow-card-soft">
-            <h2 className="text-xl font-bold text-white mb-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-white border border-black/10 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2 className="text-xl font-bold text-[#1a1a1a] mb-6">
               {editingExp ? "Edit Experience Entry" : "Add Experience Entry"}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Role Title / Designation
                 </label>
                 <input
@@ -290,12 +290,12 @@ export default function AdminExperience() {
                   value={formData.institution}
                   onChange={handleInputChange}
                   placeholder="e.g. Frontend Developer"
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5 focus:ring-1 focus:ring-[#ff4d00]/30"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Company / Organization Name
                 </label>
                 <input
@@ -304,13 +304,13 @@ export default function AdminExperience() {
                   value={formData.company}
                   onChange={handleInputChange}
                   placeholder="e.g. Google"
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5 focus:ring-1 focus:ring-[#ff4d00]/30"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                     Start Date / Year
                   </label>
                   <input
@@ -320,11 +320,11 @@ export default function AdminExperience() {
                     value={formData.startDate}
                     onChange={handleInputChange}
                     placeholder="e.g. 2023"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                  <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                     End Date / Present
                   </label>
                   <input
@@ -334,30 +334,30 @@ export default function AdminExperience() {
                     value={formData.endDate}
                     onChange={handleInputChange}
                     placeholder="e.g. Present"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Job Location Type
                 </label>
                 <select
                   name="location"
                   value={formData.location}
                   onChange={handleInputChange}
-                  className="w-full rounded-xl border border-white/10 bg-[#0a0808]/90 px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 >
-                  <option value="">Select location type...</option>
-                  <option value="On-site">On-site</option>
-                  <option value="Remote">Remote</option>
-                  <option value="Hybrid">Hybrid</option>
+                  <option value="" className="bg-white text-black">Select location type...</option>
+                  <option value="On-site" className="bg-white text-black">On-site</option>
+                  <option value="Remote" className="bg-white text-black">Remote</option>
+                  <option value="Hybrid" className="bg-white text-black">Hybrid</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Role Detail / Description Context
                 </label>
                 <textarea
@@ -367,7 +367,7 @@ export default function AdminExperience() {
                   value={formData.detail}
                   onChange={handleInputChange}
                   placeholder="e.g. Built responsive dashboards, polished marketing surfaces..."
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 />
               </div>
 
@@ -378,25 +378,25 @@ export default function AdminExperience() {
                   name="active"
                   checked={formData.active}
                   onChange={handleInputChange}
-                  className="h-4.5 w-4.5 rounded border-white/10 bg-transparent text-[#ff4d00] focus:ring-0 focus:ring-offset-0 cursor-pointer"
+                  className="h-4.5 w-4.5 rounded border-black/20 accent-[#ff5f1a] cursor-pointer"
                 />
-                <label htmlFor="active" className="text-sm font-semibold text-white/70 cursor-pointer">
+                <label htmlFor="active" className="text-sm font-semibold text-[#1a1a1a] cursor-pointer">
                   Active (show this entry in the timeline)
                 </label>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/10">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-5 py-3 rounded-xl border border-white/10 hover:bg-white/[0.03] text-sm font-semibold text-white/80 transition"
+                  className="px-5 py-3 rounded-2xl border border-black/10 hover:bg-black/5 text-sm font-semibold text-black/70 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff4d00] hover:bg-[#e04300] text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#ff5f1a] hover:bg-[#e04d0d] text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-50"
                 >
                   {saving ? (
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />

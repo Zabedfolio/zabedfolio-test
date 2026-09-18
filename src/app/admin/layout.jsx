@@ -28,9 +28,6 @@ const sidebarItems = [
   { href: "/admin/case-studies", label: "Case Studies", icon: HiOutlineLibrary },
   { href: "/admin/education", label: "Education", icon: HiOutlineAcademicCap },
   { href: "/admin/experience", label: "Experience", icon: HiOutlineCube },
-  { href: "/admin/process", label: "Process Steps", icon: HiOutlineCube },
-  { href: "/admin/notes", label: "Notes", icon: HiOutlineCollection },
-  { href: "/admin/resume", label: "Resume", icon: HiOutlineDocumentText },
 ];
 
 export default function AdminLayout({ children }) {

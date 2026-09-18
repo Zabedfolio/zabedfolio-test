@@ -5,9 +5,9 @@ import Link from "next/link";
 import {
   HiOutlineBriefcase,
   HiOutlineAcademicCap,
-  HiOutlineCollection,
   HiOutlineCog,
   HiOutlineCube,
+  HiOutlineLibrary,
   HiOutlineDatabase,
   HiOutlineChevronRight,
 } from "react-icons/hi";
@@ -16,33 +16,29 @@ export default function AdminOverview() {
   const [stats, setStats] = useState({
     projects: 0,
     skills: 0,
-    learnedSkills: 0,
+    caseStudies: 0,
     education: 0,
     experience: 0,
-    processSteps: 0,
-    notes: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchStats() {
       try {
-        const [proj, skl, edu, exp, prc, nts] = await Promise.all([
+        const [proj, skl, cs, edu, exp] = await Promise.all([
           fetch("/api/admin/projects").then((r) => r.json()),
           fetch("/api/admin/skills").then((r) => r.json()),
+          fetch("/api/admin/case-studies").then((r) => r.json()),
           fetch("/api/admin/education").then((r) => r.json()),
           fetch("/api/admin/experience").then((r) => r.json()),
-          fetch("/api/admin/process").then((r) => r.json()),
-          fetch("/api/admin/notes").then((r) => r.json()),
         ]);
 
         setStats({
           projects: Array.isArray(proj) ? proj.length : 0,
           skills: Array.isArray(skl) ? skl.length : 0,
+          caseStudies: Array.isArray(cs) ? cs.length : 0,
           education: Array.isArray(edu) ? edu.length : 0,
           experience: Array.isArray(exp) ? exp.length : 0,
-          processSteps: Array.isArray(prc) ? prc.length : 0,
-          notes: Array.isArray(nts) ? nts.length : 0,
         });
       } catch (err) {
         console.error("Failed to load dashboard statistics:", err);
@@ -61,7 +57,6 @@ export default function AdminOverview() {
       desc: "Work case studies, details & tech tags",
       icon: HiOutlineBriefcase,
       color: "bg-orange-500/5",
-      borderColor: "border-orange-500/20",
       href: "/admin/projects",
     },
     {
@@ -70,8 +65,15 @@ export default function AdminOverview() {
       desc: "Icons, categories and color schemes",
       icon: HiOutlineCog,
       color: "bg-blue-500/5",
-      borderColor: "border-blue-500/20",
       href: "/admin/skills",
+    },
+    {
+      title: "Case Studies",
+      count: stats.caseStudies,
+      desc: "Deep-dive project analysis & problems",
+      icon: HiOutlineLibrary,
+      color: "bg-amber-500/5",
+      href: "/admin/case-studies",
     },
     {
       title: "Timeline: Education",
@@ -79,7 +81,6 @@ export default function AdminOverview() {
       desc: "Institutions, certificates & duration",
       icon: HiOutlineAcademicCap,
       color: "bg-emerald-500/5",
-      borderColor: "border-emerald-500/20",
       href: "/admin/education",
     },
     {
@@ -88,26 +89,7 @@ export default function AdminOverview() {
       desc: "Freelance & formal employment roles",
       icon: HiOutlineCube,
       color: "bg-purple-500/5",
-      borderColor: "border-purple-500/20",
       href: "/admin/experience",
-    },
-    {
-      title: "Process Workflow",
-      count: stats.processSteps,
-      desc: "Steps from discovery to final launch",
-      icon: HiOutlineCube,
-      color: "bg-amber-500/5",
-      borderColor: "border-amber-500/20",
-      href: "/admin/process",
-    },
-    {
-      title: "Notes & Ideas",
-      count: stats.notes,
-      desc: "Thought stream, translations & pictures",
-      icon: HiOutlineCollection,
-      color: "bg-indigo-500/5",
-      borderColor: "border-indigo-500/20",
-      href: "/admin/notes",
     },
   ];
 
@@ -120,7 +102,7 @@ export default function AdminOverview() {
 
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {[...Array(6)].map((_, i) => (
+          {[...Array(5)].map((_, i) => (
             <div key={i} className="h-44 rounded-3xl bg-white border border-black/8 animate-pulse shadow-sm" />
           ))}
         </div>

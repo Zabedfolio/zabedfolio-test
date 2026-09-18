@@ -163,12 +163,12 @@ export default function AdminSkills() {
     <div className="space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-white">Skills Directory</h1>
-          <p className="mt-2 text-sm text-white/55">Rearrange skills shown in the Skills section</p>
+          <h1 className="text-3xl font-bold tracking-tight text-[#1a1a1a]">Skills Directory</h1>
+          <p className="mt-2 text-sm text-black/50">Rearrange skills shown in the Skills section</p>
         </div>
         <button
           onClick={openAddModal}
-          className="flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-[#ff4d00] hover:bg-[#e04300] text-sm font-semibold text-white transition active:scale-[0.98] self-start sm:self-auto"
+          className="flex items-center justify-center gap-2 px-5 py-3 rounded-2xl bg-[#ff5f1a] hover:bg-[#e04d0d] text-sm font-semibold text-white transition active:scale-[0.98] shadow-sm self-start sm:self-auto"
         >
           <HiOutlinePlus className="text-lg" /> Add Skill
         </button>
@@ -177,13 +177,13 @@ export default function AdminSkills() {
       {loading ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {[...Array(6)].map((_, i) => (
-            <div key={i} className="h-20 rounded-xl glass-panel animate-pulse" />
+            <div key={i} className="h-20 rounded-2xl bg-white border border-black/8 animate-pulse" />
           ))}
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {skills.length === 0 ? (
-            <div className="col-span-full p-12 text-center text-white/40 text-sm">
+            <div className="col-span-full p-12 text-center text-black/40 text-sm bg-white rounded-2xl border border-black/8">
               No skills found. Click "Add Skill" to create one.
             </div>
           ) : (
@@ -194,21 +194,21 @@ export default function AdminSkills() {
                 onDragStart={() => handleDragStart(idx)}
                 onDragOver={(e) => handleDragOver(e, idx)}
                 onDragEnd={handleDragEnd}
-                className={`flex items-center justify-between p-4 rounded-xl glass-panel border border-white/5 transition hover:bg-white/[0.01] ${
-                  draggedIndex === idx ? "opacity-35 bg-white/[0.05]" : ""
+                className={`flex items-center justify-between p-4 rounded-2xl bg-white border border-black/8 shadow-sm transition hover:border-black/20 ${
+                  draggedIndex === idx ? "opacity-35 bg-black/5" : ""
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
-                  <span className="cursor-grab text-white/20 hover:text-[#ff4d00] transition active:cursor-grabbing">
+                  <span className="cursor-grab text-black/30 hover:text-[#ff5f1a] transition active:cursor-grabbing">
                     <HiOutlineSelector className="text-lg" />
                   </span>
                   <div
-                    className="w-3 h-3 rounded-full flex-shrink-0"
-                    style={{ backgroundColor: skill.color || "#ffffff" }}
+                    className="w-3.5 h-3.5 rounded-full flex-shrink-0 border border-black/10"
+                    style={{ backgroundColor: skill.color || "#1a1a1a" }}
                   />
                   <div className="min-w-0">
-                    <h3 className="font-semibold text-white truncate text-sm">{skill.name}</h3>
-                    <p className="text-[10px] font-mono text-white/40 mt-0.5">
+                    <h3 className="font-semibold text-[#1a1a1a] truncate text-sm">{skill.name}</h3>
+                    <p className="text-[10px] font-mono text-black/40 mt-0.5">
                       {skill.category} &bull; {skill.percentage !== undefined ? skill.percentage : 80}%
                     </p>
                   </div>
@@ -218,14 +218,14 @@ export default function AdminSkills() {
                   <button
                     onClick={() => openEditModal(skill)}
                     title="Edit Skill"
-                    className="p-2 text-white/50 hover:text-blue-400 rounded-lg hover:bg-blue-500/10 transition duration-200"
+                    className="p-2 text-black/40 hover:text-blue-600 rounded-xl hover:bg-blue-50 transition duration-200"
                   >
                     <HiOutlinePencil className="text-lg" />
                   </button>
                   <button
                     onClick={() => handleDelete(skill._id)}
                     title="Delete Skill"
-                    className="p-2 text-white/40 hover:text-red-400 rounded-lg hover:bg-red-500/10 transition duration-200"
+                    className="p-2 text-black/40 hover:text-red-600 rounded-xl hover:bg-red-50 transition duration-200"
                   >
                     <HiOutlineTrash className="text-lg" />
                   </button>
@@ -238,15 +238,15 @@ export default function AdminSkills() {
 
       {/* Editor Modal */}
       {modalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-md">
-          <div className="w-full max-w-md glass-panel border border-white/10 bg-[#0a0808] rounded-3xl p-6 sm:p-8 shadow-card-soft">
-            <h2 className="text-xl font-bold text-white mb-6">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/30 backdrop-blur-sm">
+          <div className="w-full max-w-md bg-white border border-black/10 rounded-3xl p-6 sm:p-8 shadow-2xl">
+            <h2 className="text-xl font-bold text-[#1a1a1a] mb-6">
               {editingSkill ? "Edit Skill" : "Add New Skill"}
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Skill Name
                 </label>
                 <input
@@ -256,30 +256,30 @@ export default function AdminSkills() {
                   value={formData.name}
                   onChange={handleInputChange}
                   placeholder="e.g. Next.js"
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5 focus:ring-1 focus:ring-[#ff4d00]/30"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Category
                 </label>
                 <select
                   name="category"
                   value={formData.category}
                   onChange={handleInputChange}
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50 focus:bg-[#ff4d00]/5"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 >
-                  <option value="Frontend">Frontend</option>
-                  <option value="Backend">Backend</option>
-                  <option value="Tools">Tools</option>
-                  <option value="Design">Design</option>
-                  <option value="UI Library">UI Library</option>
+                  <option value="Frontend" className="bg-white text-black">Frontend</option>
+                  <option value="Backend" className="bg-white text-black">Backend</option>
+                  <option value="Tools" className="bg-white text-black">Tools</option>
+                  <option value="Design" className="bg-white text-black">Design</option>
+                  <option value="UI Library" className="bg-white text-black">UI Library</option>
                 </select>
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Icon Identifier (React Icons className string name)
                 </label>
                 <input
@@ -289,12 +289,12 @@ export default function AdminSkills() {
                   value={formData.icon}
                   onChange={handleInputChange}
                   placeholder="e.g. SiNextdotjs, FaReact"
-                  className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                  className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Theme HEX Color (used for circles/glows)
                 </label>
                 <div className="flex gap-3">
@@ -311,13 +311,13 @@ export default function AdminSkills() {
                     value={formData.color}
                     onChange={handleInputChange}
                     placeholder="#ffffff"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.02] px-4 py-3 text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-full rounded-2xl border border-black/10 bg-black/3 px-4 py-3 text-sm text-[#1a1a1a] placeholder-black/30 transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-mono uppercase tracking-wider text-white/60 mb-2">
+                <label className="block text-xs font-mono uppercase tracking-wider text-black/60 mb-2">
                   Skill Level Percentage (0 - 100)
                 </label>
                 <div className="flex items-center gap-3">
@@ -328,7 +328,7 @@ export default function AdminSkills() {
                     name="percentage"
                     value={formData.percentage}
                     onChange={handleInputChange}
-                    className="w-full h-2 bg-white/10 rounded-lg appearance-none cursor-pointer accent-[#ff4d00]"
+                    className="w-full h-2 bg-black/10 rounded-lg appearance-none cursor-pointer accent-[#ff5f1a]"
                   />
                   <input
                     type="number"
@@ -338,24 +338,24 @@ export default function AdminSkills() {
                     value={formData.percentage}
                     onChange={handleInputChange}
                     placeholder="80"
-                    className="w-20 rounded-xl border border-white/10 bg-white/[0.02] px-3 py-2 text-center text-sm text-white transition focus:border-[#ff4d00]/50"
+                    className="w-20 rounded-2xl border border-black/10 bg-black/3 px-3 py-2 text-center text-sm text-[#1a1a1a] transition focus:border-[#ff5f1a] focus:bg-white focus:outline-none"
                   />
-                  <span className="text-white/60 font-mono text-sm">%</span>
+                  <span className="text-black/60 font-mono text-sm">%</span>
                 </div>
               </div>
 
-              <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/5">
+              <div className="flex items-center justify-end gap-3 pt-4 border-t border-black/10">
                 <button
                   type="button"
                   onClick={() => setModalOpen(false)}
-                  className="px-5 py-3 rounded-xl border border-white/10 hover:bg-white/[0.03] text-sm font-semibold text-white/80 transition"
+                  className="px-5 py-3 rounded-2xl border border-black/10 hover:bg-black/5 text-sm font-semibold text-black/70 transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={saving}
-                  className="flex items-center gap-2 px-6 py-3 rounded-xl bg-[#ff4d00] hover:bg-[#e04300] text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-50"
+                  className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-[#ff5f1a] hover:bg-[#e04d0d] text-sm font-semibold text-white transition active:scale-[0.98] disabled:opacity-50"
                 >
                   {saving ? (
                     <span className="h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent" />
