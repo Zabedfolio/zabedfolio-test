@@ -16,20 +16,22 @@ export async function GET() {
   };
 
   try {
-    // Fetch both solved stats and user profile in parallel to construct matching schema
+    // Fetch both solved stats and user profile with a 3-second timeout to prevent hanging on cold starts
     const [solvedRes, profileRes] = await Promise.all([
       fetch('https://alfa-leetcode-api.onrender.com/zabedfolio/solved', {
         cache: 'no-store',
-        headers: { 'Content-Type': 'application/json' }
-      }),
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(3000),
+      }).catch(() => null),
       fetch('https://alfa-leetcode-api.onrender.com/zabedfolio', {
         cache: 'no-store',
-        headers: { 'Content-Type': 'application/json' }
-      })
+        headers: { 'Content-Type': 'application/json' },
+        signal: AbortSignal.timeout(3000),
+      }).catch(() => null),
     ]);
 
-    if (!solvedRes.ok || !profileRes.ok) {
-      console.warn('One or both LeetCode API endpoints failed, returning fallback stats.');
+    if (!solvedRes?.ok || !profileRes?.ok) {
+      console.warn('One or both LeetCode API endpoints failed or timed out, returning fallback stats.');
       return Response.json(fallbackData);
     }
 

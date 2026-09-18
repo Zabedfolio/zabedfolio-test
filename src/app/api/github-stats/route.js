@@ -27,6 +27,7 @@ export async function GET() {
         },
       }),
       cache: 'no-store',
+      signal: AbortSignal.timeout(3000),
     });
 
     if (!response.ok) {

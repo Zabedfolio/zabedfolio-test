@@ -1,295 +1,228 @@
 'use client';
 
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { useRef } from 'react';
-import {
-  FaFacebookF,
-  FaGithub,
-  FaLinkedinIn,
-  FaInstagram,
-} from 'react-icons/fa';
-import { SiLeetcode } from 'react-icons/si';
-import { FiChevronDown } from 'react-icons/fi';
+import { useEffect, useState } from 'react';
 import avtr from '@/assets/avtr.png';
 import Link from 'next/link';
 
-const socialLinks = [
-  {
-    href: 'https://github.com/Zabedfolio',
-    icon: FaGithub,
-    label: 'GitHub',
-  },
-  {
-    href: 'https://www.linkedin.com/in/zabedfolio/',
-    icon: FaLinkedinIn,
-    label: 'LinkedIn',
-  },
-  {
-    href: 'https://www.facebook.com/profile.php?id=61585623848571',
-    icon: FaFacebookF,
-    label: 'Facebook',
-  },
-  {
-    href: 'https://www.instagram.com/zaabed_maahmud/',
-    icon: FaInstagram,
-    label: 'Instagram',
-  },
-  {
-    href: 'https://leetcode.com/u/zabedfolio/',
-    icon: SiLeetcode,
-    label: 'LeetCode',
-  },
-];
+// ─── Journey start: Jan 1 2026 00:00:00 UTC+6 (Bangladesh) ───────────────────
+const JOURNEY_START = new Date("2026-01-01T00:00:00+06:00").getTime();
 
-const marqueeItems = [
-  'REACT',
-  'VERCEL',
-  'NEXT.JS',
-  'BETTER AUTH',
-  'FIGMA',
-  'MONGODB',
-  'NODEJS',
-  'FRAMER MOTION',
-  'HERO UI',
-  'DAISY UI',
-  'GRAVITY UI',
-];
+function useJourneySeconds() {
+  const [mounted, setMounted] = useState(false);
+  const [seconds, setSeconds] = useState(0);
 
-const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
-];
+  useEffect(() => {
+    setMounted(true);
+    setSeconds(Math.floor((Date.now() - JOURNEY_START) / 1000));
+    const id = setInterval(() => {
+      setSeconds(Math.floor((Date.now() - JOURNEY_START) / 1000));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
 
-export default function Hero() {
-  const heroRef = useRef(null);
-  const reducedMotion = useReducedMotion();
+  return mounted ? seconds : null;
+}
 
-  const currentMonth = MONTHS[new Date().getMonth()];
+function formatSeconds(s) {
+  return s.toLocaleString("en-US");
+}
 
-  const { scrollYProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  });
+function AnimatedDigit({ char }) {
+  const isDigit = /\d/.test(char);
 
-  const blur = useTransform(
-    scrollYProgress,
-    [0, 0.7],
-    reducedMotion
-      ? ['blur(0px)', 'blur(0px)']
-      : ['blur(0px)', 'blur(20px)']
-  );
-
-  const opacity = useTransform(scrollYProgress, [0.1, 0.8], [1, 0]);
-
-  const scale = useTransform(
-    scrollYProgress,
-    [0, 0.7],
-    reducedMotion ? [1, 1] : [1, 0.9]
-  );
-
-  const y = useTransform(
-    scrollYProgress,
-    [0, 0.7],
-    reducedMotion ? [0, 0] : [0, -60]
-  );
+  if (!isDigit) {
+    return (
+      <span className="inline-block text-[#ff5f1a]/60">{char}</span>
+    );
+  }
 
   return (
-    <section
-      ref={heroRef}
-      className="relative z-10 flex min-h-screen items-center overflow-hidden px-4 sm:px-6 lg:px-8"
+    <span
+      className="relative inline-block overflow-hidden"
+      style={{ height: "1.15em", width: "0.62em", verticalAlign: "bottom" }}
     >
-      <div className="section-shell w-full">
-        <motion.div
-          style={{ filter: blur, opacity, scale, y }}
-          className="mx-auto max-w-6xl text-center"
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={char}
+          initial={{ y: "100%", opacity: 0, filter: "blur(3px)" }}
+          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-100%", opacity: 0, filter: "blur(3px)" }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
         >
-          {/* Badge */}
+          {char}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
+
+export default function Hero() {
+  const seconds = useJourneySeconds();
+
+  return (
+    <section className="relative z-10 pt-12 pb-16 sm:pt-16 sm:pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="section-shell max-w-4xl mx-auto">
+        <div className="space-y-10">
+
+          {/* Top Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-2"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-3.5 py-1.5 font-mono text-[11px] font-medium tracking-wide text-black/60 shadow-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              Full Stack Web Developer 🇧🇩
+            </span>
+          </motion.div>
+
+          {/* Main Title with Inline Graphic Badges */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-3"
+          >
+            {/* Title Line 1 */}
+            <h1 className="text-[clamp(2.5rem,6.5vw,5rem)] font-extrabold leading-[1.1] tracking-[-0.04em] text-[#1a1a1a] flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span>Hey, I'm</span>
+              
+              {/* Avatar Pill Badge */}
+              <span className="inline-flex items-center justify-center p-1 bg-white rounded-2xl border border-black/10 shadow-md shadow-black/5 rotate-[-2deg] transition-transform hover:rotate-0 duration-300">
+                <span className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-xl overflow-hidden block">
+                  <Image
+                    src={avtr}
+                    alt="Zabed Mahmud"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </span>
+              </span>
+
+              <span className="text-[#1a1a1a]">Zabed</span>
+            </h1>
+
+            {/* Title Line 2 */}
+            <h2 className="text-[clamp(2.2rem,6vw,4.6rem)] font-extrabold leading-[1.1] tracking-[-0.04em] text-[#1a1a1a] flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span>And I Design</span>
+              
+              {/* Code Icon Pill */}
+              <span className="inline-flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-105 duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-[#ff5f1a]">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </span>
+
+              <span>Web Solutions &</span>
+
+              {/* Hardware / Design Icon Pill */}
+              <span className="inline-flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-105 duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-emerald-400">
+                  <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                  <rect x="9" y="9" width="6" height="6"></rect>
+                  <line x1="9" y1="1" x2="9" y2="4"></line>
+                  <line x1="15" y1="1" x2="15" y2="4"></line>
+                  <line x1="9" y1="20" x2="9" y2="23"></line>
+                  <line x1="15" y1="20" x2="15" y2="23"></line>
+                  <line x1="20" y1="9" x2="23" y2="9"></line>
+                  <line x1="20" y1="15" x2="23" y2="15"></line>
+                  <line x1="1" y1="9" x2="4" y2="9"></line>
+                  <line x1="1" y1="15" x2="4" y2="15"></line>
+                </svg>
+              </span>
+
+              <span>Digital Products</span>
+            </h2>
+          </motion.div>
+
+          {/* Work & Role Pills */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            className="mx-auto mb-6 inline-flex items-center gap-2 sm:gap-3 rounded-full border border-[#ff4d00]/20 bg-[#ff4d00]/[0.08] px-3 sm:px-4 py-2 font-mono text-[10px] sm:text-xs uppercase tracking-[0.18em] sm:tracking-[0.24em] text-white/75"
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="flex flex-wrap items-center gap-3 pt-2"
           >
-            <span className="relative flex h-2 w-2 sm:h-2.5 sm:w-2.5">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#ff4d00]/70" />
-              <span className="relative inline-flex h-full w-full rounded-full bg-[#ff4d00]" />
-            </span>
-            Still Learning · {currentMonth}
-          </motion.div>
-
-          {/* Avatar */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="relative mx-auto mb-8 w-fit rounded-[1.5rem] sm:rounded-[1.75rem] border border-white/10 bg-white/[0.03] p-2 shadow-accent-glow"
-          >
-            {/* Handwritten Arrow */}
-            <div className="absolute hidden lg:flex top-1/2 -right-32 -translate-y-1/2 flex-col items-center">
-              <span className="text-sm text-white/70 italic font-[Imperial Script] rotate-[-6deg] whitespace-nowrap">
-                Take a Look <br /> at My Journey
-              </span>
-
-              <svg
-                width="80"
-                height="80"
-                viewBox="0 0 100 100"
-                className="text-white/70"
-                fill="none"
-              >
-                <path
-                  d="M90 10 C 40 10, 40 80, 10 80"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-
-                <path
-                  d="M10 80 L18 72 M10 80 L18 88"
-                  stroke="currentColor"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                />
-              </svg>
+            {/* Full Time Pill */}
+            <div className="inline-flex items-center gap-2 rounded-xl border border-black/10 bg-white px-3.5 py-2 shadow-sm text-xs font-semibold text-[#1a1a1a]">
+              <span>Full Time</span>
+              <span className="font-mono text-black/40 bg-black/5 px-1.5 py-0.5 rounded text-[11px] font-bold">&gt;_</span>
             </div>
 
-            <motion.div
-              animate={reducedMotion ? {} : { y: [0, -10, 0] }}
-              transition={{
-                duration: 4,
-                repeat: Infinity,
-                ease: 'easeInOut',
-              }}
-              className="relative h-24 w-24 sm:h-28 sm:w-28 md:h-32 md:w-32 overflow-hidden rounded-2xl cursor-pointer"
-            >
-              <Link href="https://zabedfolio.vercel.app/more-about-page">
-                <Image
-                  src={avtr}
-                  alt="Developer portrait"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </Link>
-            </motion.div>
+            {/* Part Time Group Pills */}
+            <div className="inline-flex items-center gap-2 rounded-xl border border-black/10 bg-white px-3.5 py-2 shadow-sm text-xs font-semibold text-[#1a1a1a]">
+              <span className="text-black/50">Part-Time</span>
+              <div className="flex flex-wrap items-center gap-1.5 border-l border-black/10 pl-2">
+                <span title="Graphics Design" className="inline-flex items-center gap-1 rounded-lg bg-amber-500/10 px-2 py-0.5 text-[11px] text-amber-700 font-medium border border-amber-500/20">
+                  🎨 Graphics Design
+                </span>
+                <span title="Social Media Management" className="inline-flex items-center gap-1 rounded-lg bg-blue-500/10 px-2 py-0.5 text-[11px] text-blue-700 font-medium border border-blue-500/20">
+                  📱 Social Media Management
+                </span>
+                <span title="Gaming & Tech" className="inline-flex items-center gap-1 rounded-lg bg-purple-500/10 px-2 py-0.5 text-[11px] text-purple-700 font-medium border border-purple-500/20">
+                  🎮 Tech & Gaming
+                </span>
+              </div>
+            </div>
           </motion.div>
 
-          {/* Headline */}
-          <div className="space-y-1 sm:space-y-2">
-            <motion.h1 className="font-extrabold leading-[0.9] tracking-[-0.05em] text-white">
-              <motion.span
-                initial={{ y: 60, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                className="block text-[3rem] xs:text-[3.6rem] sm:text-[4.8rem] md:text-[6rem] lg:text-[7rem]"
-              >
-                I Build for
-              </motion.span>
-
-              <motion.span
-                initial={{ y: 60, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.08 }}
-                className="block text-[3rem] xs:text-[3.6rem] sm:text-[4.8rem] md:text-[6rem] lg:text-[7rem] bg-gradient-to-r from-white via-[#ff4d00] to-[#ff8c00] bg-clip-text text-transparent"
-              >
-                Excellence.
-              </motion.span>
-            </motion.h1>
-          </div>
-
-          {/* Subtext */}
-          <motion.p
+          {/* Bio Text Paragraphs */}
+          <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="mx-auto mt-6 sm:mt-8 max-w-3xl px-2 text-base leading-7 text-white/60 sm:text-lg sm:leading-8 md:text-xl"
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="space-y-4 text-[1.05rem] leading-[1.8] text-black/65 max-w-3xl font-normal pt-2"
           >
-            Not just code. Craft. I build frontend experiences that
-            perform as hard as they look — immersive, precise, and built
-            to last.
-          </motion.p>
+            <p>
+              I'm a Web Developer, Designer, and Tech Enthusiast from Chittagong, Bangladesh 🇧🇩. I've been coding and building web applications for about 8 months — or <span className="italic">exactly</span>{" "}
+              <span className="font-mono font-extrabold text-[#ff5f1a] tracking-tight px-1 py-0.5 rounded bg-[#ff5f1a]/8 border border-[#ff5f1a]/20">
+                {seconds !== null ? (
+                  formatSeconds(seconds).split("").map((char, i) => (
+                    <AnimatedDigit key={i} char={char} />
+                  ))
+                ) : (
+                  <span>328,749,895</span>
+                )}
+              </span>{" "}
+              Seconds!
+            </p>
 
-          {/* Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3 }}
-            className="mt-8 sm:mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4"
-          >
-            <motion.a
-              href="#projects"
-              whileHover={reducedMotion ? {} : { y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full sm:w-auto rounded-full border border-[#ff4d00]/20 bg-[#ff4d00] px-6 sm:px-7 py-3.5 sm:py-4 text-sm font-medium text-white shadow-accent-glow"
-            >
-              View My Work
-            </motion.a>
+            <p>
+              I use ReactJS, NextJS, Express, PostgreSQL, MongoDB, Tailwind CSS, and TypeScript most of the time. My focus is on building clean, high-performance web products, scalable APIs, and intuitive user interfaces.
+            </p>
 
-            <motion.a
-              href="/resume.pdf"
-              download
-              whileHover={reducedMotion ? {} : { y: -2 }}
-              whileTap={{ scale: 0.98 }}
-              className="w-full sm:w-auto rounded-full border border-white/15 bg-white/[0.03] px-6 sm:px-7 py-3.5 sm:py-4 text-sm font-medium text-white/80 backdrop-blur-xl"
-            >
-              Download Resume
-            </motion.a>
+            <p>
+              I have developed modern software applications for clients and personal projects, crafting digital experiences that perform seamlessly. I love what I do ❤️.
+            </p>
           </motion.div>
 
-          {/* Socials */}
-          <div className="mt-8 sm:mt-10 flex flex-wrap items-center justify-center gap-3">
-            {socialLinks.map(({ href, icon: Icon, label }) => (
-              <motion.a
-                key={label}
-                href={href}
-                target="_blank"
-                rel="noreferrer"
-                whileHover={reducedMotion ? {} : { y: -4 }}
-                className="rounded-full border border-white/10 bg-white/[0.03] p-3 transition"
-              >
-                <Icon className="text-base text-white" />
-              </motion.a>
-            ))}
-          </div>
-
-          {/* Marquee */}
-          <div className="mt-14 sm:mt-16 overflow-hidden border-y border-white/10 py-4 sm:py-5">
-            <motion.div
-              animate={reducedMotion ? {} : { x: ['0%', '-50%'] }}
-              transition={{
-                duration: 18,
-                repeat: Infinity,
-                ease: 'linear',
-              }}
-              className="flex min-w-max gap-6 sm:gap-10 font-mono text-[10px] sm:text-xs uppercase tracking-[0.22em] sm:tracking-[0.3em] text-white/30"
-            >
-              {[...marqueeItems, ...marqueeItems].map((item, index) => (
-                <span key={`${item}-${index}`}>{item}</span>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* Scroll */}
-          <motion.a
-            href="#about"
-            animate={reducedMotion ? {} : { y: [0, 8, 0] }}
-            transition={{
-              duration: 1.6,
-              repeat: Infinity,
-            }}
-            className="mx-auto mt-8 sm:mt-10 flex w-fit flex-col items-center gap-2 text-white/35"
+          {/* Section Transition Heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="pt-10 border-t border-black/8"
           >
-            <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-[0.24em]">
-              Scroll
-            </span>
+            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-black/35 font-sans">
+              Little more <span className="text-[#1a1a1a]">about me..</span>
+            </h3>
+          </motion.div>
 
-            <FiChevronDown className="text-lg sm:text-xl" />
-          </motion.a>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

@@ -80,20 +80,20 @@ export default function Contact() {
 };
 
   return (
-    <div id="contact" className="section-shell py-24 sm:py-32">
+    <div id="contact" className="section-shell py-16 sm:py-24">
       <motion.div initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.2 }} variants={staggerContainer} className="grid gap-10 lg:grid-cols-5">
         <div className="space-y-8 lg:col-span-2">
           <motion.p variants={fadeUp} className="section-label">
-            05 — Let&apos;s Talk
+            Get In Touch
           </motion.p>
           <motion.h2 variants={fadeUp} className="section-title">
-            Let&apos;s Build Something Exceptional.
+            Let&apos;s Build Something Memorable.
           </motion.h2>
-          <motion.p variants={fadeUp} className="text-lg leading-8 text-white/58">
-            If you need a portfolio, product landing page, or a high-end frontend presence that feels deliberately crafted, I&apos;m ready to help.
+          <motion.p variants={fadeUp} className="text-base leading-7 text-black/60 font-normal">
+            If you need a web application, portfolio, or a tailored software solution, I&apos;m ready to collaborate and bring your ideas to life.
           </motion.p>
 
-          <motion.div variants={fadeUp} className="space-y-4">
+          <motion.div variants={fadeUp} className="space-y-3">
             {contactCards.map(({ label, value, icon: Icon, href }) => (
               <a
                 key={label}
@@ -102,73 +102,69 @@ export default function Contact() {
                 rel="noopener noreferrer"
                 className="block"
               >
-                <div className="glass-panel hover-glow flex items-center gap-4 rounded-2xl p-4 cursor-pointer">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#ff4d00]/20 bg-[#ff4d00]/10 text-[#ff8c00]">
-                    <Icon />
+                <div className="flex items-center gap-4 rounded-2xl border border-black/8 bg-white p-4 shadow-sm transition hover:border-[#ff5f1a]/30 hover:shadow-md cursor-pointer">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-[#ff5f1a]/10 text-[#ff5f1a]">
+                    <Icon className="text-lg" />
                   </div>
 
                   <div>
-                    <div className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/30">
+                    <div className="font-mono text-[10px] uppercase tracking-wider text-black/40 font-bold">
                       {label}
                     </div>
-                    <div className="mt-1 text-white/75">{value}</div>
+                    <div className="mt-0.5 text-sm font-medium text-[#1a1a1a]">{value}</div>
                   </div>
                 </div>
               </a>
             ))}
           </motion.div>
-
-          <motion.a
-            variants={fadeUp}
-            href="#"
-            className="inline-flex rounded-full border border-white/10 bg-white/[0.04] px-6 py-3 text-sm text-white/80"
-          >
-            Book a 45-min Call
-          </motion.a>
         </div>
 
         <motion.div variants={fadeUp} className="lg:col-span-3">
-          <form onSubmit={handleSubmit} className="glass-panel rounded-[2rem] p-6 sm:p-8">
+          <form onSubmit={handleSubmit} className="rounded-3xl border border-black/8 bg-white p-6 sm:p-8 shadow-sm">
             <div className="grid gap-4 sm:grid-cols-2">
-              <label className="space-y-2 sm:col-span-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/35">Name</span>
+              <label className="space-y-1.5 sm:col-span-2">
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Name</span>
                 <input
                   required
                   name="name"
                   value={form.name}
                   onChange={handleChange}
-                  className="w-full rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4 text-white transition focus:border-[#ff4d00] focus:shadow-[0_0_0_1px_rgba(255,77,0,0.2),0_0_24px_rgba(255,77,0,0.12)]"
+                  placeholder="Your Name"
+                  className="w-full rounded-xl border border-black/10 bg-[#f9f9f9] px-4 py-3 text-sm text-[#1a1a1a] transition focus:bg-white focus:border-[#ff5f1a] focus:outline-none"
                 />
               </label>
-              <label className="space-y-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/35">Email</span>
+              <label className="space-y-1.5">
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Email</span>
                 <input
                   required
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
-                  className="w-full rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4 text-white transition focus:border-[#ff4d00] focus:shadow-[0_0_0_1px_rgba(255,77,0,0.2),0_0_24px_rgba(255,77,0,0.12)]"
+                  placeholder="hello@example.com"
+                  className="w-full rounded-xl border border-black/10 bg-[#f9f9f9] px-4 py-3 text-sm text-[#1a1a1a] transition focus:bg-white focus:border-[#ff5f1a] focus:outline-none"
                 />
               </label>
-              <label className="space-y-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/35">Phone</span>
+              <label className="space-y-1.5">
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Phone</span>
                 <input
                   name="phone"
                   value={form.phone}
                   onChange={handleChange}
-                  className="w-full rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4 text-white transition focus:border-[#ff4d00] focus:shadow-[0_0_0_1px_rgba(255,77,0,0.2),0_0_24px_rgba(255,77,0,0.12)]"
+                  placeholder="+880 1979 333880"
+                  className="w-full rounded-xl border border-black/10 bg-[#f9f9f9] px-4 py-3 text-sm text-[#1a1a1a] transition focus:bg-white focus:border-[#ff5f1a] focus:outline-none"
                 />
               </label>
-              <label className="space-y-2 sm:col-span-2">
-                <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-white/35">Message</span>
+              <label className="space-y-1.5 sm:col-span-2">
+                <span className="font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">Message</span>
                 <textarea
                   required
-                  rows={6}
+                  rows={5}
                   name="message"
                   value={form.message}
                   onChange={handleChange}
-                  className="w-full rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4 text-white transition focus:border-[#ff4d00] focus:shadow-[0_0_0_1px_rgba(255,77,0,0.2),0_0_24px_rgba(255,77,0,0.12)]"
+                  placeholder="Tell me about your project or goal..."
+                  className="w-full rounded-xl border border-black/10 bg-[#f9f9f9] px-4 py-3 text-sm text-[#1a1a1a] transition focus:bg-white focus:border-[#ff5f1a] focus:outline-none"
                 />
               </label>
             </div>
@@ -176,7 +172,7 @@ export default function Contact() {
             <motion.button
               whileTap={{ scale: 0.98 }}
               disabled={loading}
-              className="mt-6 rounded-full bg-[#ff4d00] px-7 py-4 text-sm font-medium text-white shadow-accent-glow disabled:cursor-not-allowed disabled:opacity-70"
+              className="mt-6 w-full sm:w-auto rounded-full bg-[#ff5f1a] px-8 py-3.5 text-sm font-semibold text-white shadow-md shadow-[#ff5f1a]/20 disabled:cursor-not-allowed disabled:opacity-70 transition hover:opacity-90"
             >
               {loading ? "Sending..." : "Send Message"}
             </motion.button>

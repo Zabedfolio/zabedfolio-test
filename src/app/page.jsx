@@ -14,36 +14,16 @@ import ScrollBlurSection from "@/components/scroll/ScrollBlurSection";
 
 export default function HomePage() {
   return (
-    <ScrollBlurProvider>
-      <div className="relative min-h-screen bg-transparent text-white">
-        <ParallaxCanvas />
-        <Navbar />
-        <main className="relative z-10">
-          <Hero />
-          <ScrollBlurSection>
-            <About />
-          </ScrollBlurSection>
-          <ScrollBlurSection>
-            <Skills />
-          </ScrollBlurSection>
-          <ScrollBlurSection>
-            <Process />
-          </ScrollBlurSection>
-          <ScrollBlurSection>
-            <Projects />
-          </ScrollBlurSection>
-          <ScrollBlurSection>
-            <CaseStudiesSection />
-          </ScrollBlurSection>
-          <ScrollBlurSection>
-            <Timeline />
-          </ScrollBlurSection>
-          <ScrollBlurSection maxBlur={8}>
-            <Contact />
-          </ScrollBlurSection>
-        </main>
-        <Footer />
-      </div>
-    </ScrollBlurProvider>
+    <div className="relative min-h-screen bg-[#eeeeee] text-[#1a1a1a] selection:bg-[#ff5f1a]/20">
+      <Navbar />
+      <main className="relative z-10">
+        <Hero />
+        <About />
+        <Projects />
+        <CaseStudiesSection />
+        <Contact />
+      </main>
+      <Footer />
+    </div>
   );
 }
