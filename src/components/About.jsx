@@ -175,7 +175,7 @@ export default function About() {
   const seconds = useJourneySeconds();
 
   return (
-    <section id="story" className="relative z-10 pt-8 pb-16 sm:pt-14 sm:pb-24 px-4 sm:px-6 lg:px-8">
+    <section id="story" className="relative z-10 pt-28 pb-40 sm:pt-40 sm:pb-56 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="space-y-10">
 

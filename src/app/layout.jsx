@@ -1,7 +1,6 @@
 import { GeistMono, GeistSans } from "geist/font";
 import { Pacifico } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
-import MacIntroLoader from "@/components/MacIntroLoader";
 import "./globals.css";
 
 const pacifico = Pacifico({
@@ -43,7 +42,6 @@ export default function RootLayout({ children }) {
       className={`${GeistSans.variable} ${GeistMono.variable} ${pacifico.variable}`}
     >
       <body>
-        <MacIntroLoader />
         <CustomCursor />
         {children}
       </body>
