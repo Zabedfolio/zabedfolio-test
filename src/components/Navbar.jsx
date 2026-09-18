@@ -1,26 +1,29 @@
 'use client';
 
 import * as Dialog from "@radix-ui/react-dialog";
-import { AnimatePresence, motion, useScroll, useTransform } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import Link from "next/link";
-import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useSession } from "@/lib/auth-client";
-import { HiOutlineMenuAlt4, HiOutlineX, HiOutlineShieldCheck } from "react-icons/hi";
-import avtr from "@/assets/avtr.png";
+import {
+  HiOutlineHome,
+  HiOutlineFolder,
+  HiOutlineShieldCheck,
+  HiOutlineMenuAlt4,
+  HiOutlineX,
+} from "react-icons/hi";
 
 const navItems = [
-  { href: "/#story", label: "Story" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/projects", label: "Projects" },
-  { href: "/#contact", label: "Contact" }
+  { href: "/", label: "Home", icon: HiOutlineHome },
+  { href: "/projects", label: "Projects", icon: HiOutlineFolder },
+  { href: "/admin", label: "Admin", icon: HiOutlineShieldCheck },
 ];
 
 export default function Navbar() {
+  const pathname = usePathname();
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("/#story");
-  const { scrollY } = useScroll();
   const [isAdminLocal, setIsAdminLocal] = useState(false);
 
   useEffect(() => {
@@ -29,150 +32,111 @@ export default function Navbar() {
     }
   }, [session]);
 
-  const navBg = useTransform(scrollY, [0, 100], ["rgba(238,238,238,0.7)", "rgba(238,238,238,0.92)"]);
-  const navBorder = useTransform(scrollY, [0, 100], ["rgba(0,0,0,0.04)", "rgba(0,0,0,0.08)"]);
-  const navBlur = useTransform(scrollY, [0, 100], [8, 16]);
-
   return (
-    <motion.header
-      style={{
-        backgroundColor: navBg,
-        borderBottomColor: navBorder,
-        backdropFilter: useTransform(navBlur, (v) => `blur(${v}px) saturate(180%)`)
-      }}
-      className="sticky top-0 z-50 border-b border-black/5 transition-colors"
-    >
-      <div className="section-shell">
-        <div className="flex h-16 sm:h-20 items-center justify-between gap-4">
-          
-          {/* Logo / Brand */}
-          <Link href="/" className="relative z-10 flex items-center gap-3 group">
-            <div className="relative h-9 w-9 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-[#ff5f1a]/50">
-              <Image
-                src={avtr}
-                alt="Zabed Mahmud"
-                fill
-                className="object-cover rounded-[10px]"
-                priority
-              />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold text-[#1a1a1a] tracking-tight transition-colors duration-300 group-hover:text-[#ff5f1a]">
-                Zabed Mahmud
-              </span>
-              <span className="text-[10px] font-mono text-black/40 uppercase tracking-wider -mt-0.5">
-                Full Stack Developer
-              </span>
-            </div>
-          </Link>
+    <>
+      {/* Desktop Vertical Sidebar Navigation Dock */}
+      <aside className="hidden md:flex fixed left-5 top-1/2 -translate-y-1/2 z-50 flex-col items-center gap-3 rounded-3xl border border-black/10 bg-white/80 p-2.5 shadow-xl shadow-black/5 backdrop-blur-xl">
+        {navItems.map((item) => {
+          const Icon = item.icon;
+          const isActive = pathname === item.href;
 
-          {/* Desktop Nav Items */}
-          <nav className="hidden rounded-full border border-black/8 bg-white/80 p-1.5 shadow-sm backdrop-blur-md md:flex items-center gap-1">
-            {navItems.map((item) => (
+          return (
+            <div key={item.href} className="relative group">
               <Link
-                key={item.href}
                 href={item.href}
-                onClick={() => setActive(item.href)}
-                className="relative px-4 py-1.5 text-xs font-semibold text-black/60 transition hover:text-[#1a1a1a]"
+                className={`relative flex h-11 w-11 items-center justify-center rounded-2xl transition-all duration-300 ${
+                  isActive
+                    ? "bg-[#1a1a1a] text-white shadow-md shadow-black/10"
+                    : "text-black/60 hover:bg-black/5 hover:text-[#1a1a1a]"
+                }`}
               >
-                {active === item.href && (
+                <Icon className="text-xl" />
+                {isActive && (
                   <motion.span
-                    layoutId="navPill"
-                    className="absolute inset-0 rounded-full bg-black/5 border border-black/5"
+                    layoutId="sidebarActivePill"
+                    className="absolute -right-1 h-2 w-2 rounded-full bg-[#ff5f1a]"
                     transition={{ type: "spring", stiffness: 380, damping: 30 }}
                   />
                 )}
-                <span className="relative z-10">{item.label}</span>
               </Link>
-            ))}
-          </nav>
 
-          {/* Actions */}
-          {(session?.user || isAdminLocal) && (
-            <div className="hidden md:flex items-center gap-3">
-              <Link
-                href="/admin"
-                title="Go to Admin Dashboard"
-                className="rounded-full border border-black/10 bg-white p-2.5 text-[#ff5f1a] hover:bg-[#ff5f1a]/10 transition shadow-sm"
-              >
-                <HiOutlineShieldCheck className="text-lg" />
-              </Link>
+              {/* Hover Tooltip */}
+              <div className="pointer-events-none absolute left-full ml-3 top-1/2 -translate-y-1/2 rounded-xl bg-[#1a1a1a] px-3 py-1.5 font-mono text-[11px] font-semibold text-white opacity-0 shadow-lg transition-all duration-200 group-hover:opacity-100 group-hover:translate-x-1 whitespace-nowrap z-50">
+                {item.label}
+              </div>
             </div>
-          )}
+          );
+        })}
+      </aside>
 
-          {/* Mobile Menu Button */}
-          <div className="flex items-center gap-2 md:hidden">
-            {(session?.user || isAdminLocal) && (
-              <Link
-                href="/admin"
-                title="Go to Admin Dashboard"
-                className="rounded-full border border-black/10 bg-white p-2.5 text-[#ff5f1a] transition shadow-sm"
-              >
-                <HiOutlineShieldCheck className="text-lg" />
-              </Link>
+      {/* Mobile Menu Trigger & Modal */}
+      <div className="md:hidden fixed top-4 left-4 z-50">
+        <Dialog.Root open={open} onOpenChange={setOpen}>
+          <Dialog.Trigger asChild>
+            <button className="flex h-11 w-11 items-center justify-center rounded-2xl border border-black/10 bg-white/90 text-[#1a1a1a] shadow-lg backdrop-blur-md">
+              <HiOutlineMenuAlt4 className="text-xl" />
+            </button>
+          </Dialog.Trigger>
+
+          <AnimatePresence>
+            {open && (
+              <Dialog.Portal forceMount>
+                <Dialog.Overlay asChild>
+                  <motion.div
+                    className="fixed inset-0 z-50 bg-black/40 backdrop-blur-md"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
+                  />
+                </Dialog.Overlay>
+
+                <Dialog.Content asChild>
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.95, y: -10 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    exit={{ opacity: 0, scale: 0.95, y: -10 }}
+                    className="fixed inset-x-4 top-4 z-[60] rounded-3xl border border-black/10 bg-white p-6 shadow-2xl"
+                  >
+                    <div className="flex items-center justify-between pb-4 border-b border-black/5">
+                      <div className="font-mono text-xs font-bold uppercase tracking-wider text-[#1a1a1a]">
+                        Navigation
+                      </div>
+                      <Dialog.Close asChild>
+                        <button className="rounded-full border border-black/10 bg-black/5 p-2 text-[#1a1a1a]">
+                          <HiOutlineX className="text-lg" />
+                        </button>
+                      </Dialog.Close>
+                    </div>
+
+                    <div className="flex flex-col py-4 gap-2">
+                      {navItems.map((item) => {
+                        const Icon = item.icon;
+                        const isActive = pathname === item.href;
+
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            onClick={() => setOpen(false)}
+                            className={`flex items-center gap-3.5 rounded-2xl px-4 py-3.5 text-base font-bold transition-all ${
+                              isActive
+                                ? "bg-[#1a1a1a] text-white"
+                                : "text-black/70 hover:bg-black/5 hover:text-[#1a1a1a]"
+                            }`}
+                          >
+                            <Icon className="text-xl" />
+                            <span>{item.label}</span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </Dialog.Content>
+              </Dialog.Portal>
             )}
-            <Dialog.Root open={open} onOpenChange={setOpen}>
-              <Dialog.Trigger asChild>
-                <button className="rounded-full border border-black/10 bg-white p-2.5 text-[#1a1a1a] shadow-sm">
-                  <HiOutlineMenuAlt4 className="text-xl" />
-                </button>
-              </Dialog.Trigger>
-
-              <AnimatePresence>
-                {open && (
-                  <Dialog.Portal forceMount>
-                    <Dialog.Overlay asChild>
-                      <motion.div
-                        className="fixed inset-0 z-50 bg-black/40 backdrop-blur-md"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                      />
-                    </Dialog.Overlay>
-
-                    <Dialog.Content asChild>
-                      <motion.div
-                        initial={{ opacity: 0, y: -10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="fixed inset-x-4 top-4 z-[60] rounded-3xl border border-black/10 bg-white p-6 shadow-2xl"
-                      >
-                        <div className="flex items-center justify-between pb-4 border-b border-black/5">
-                          <div className="text-sm font-bold uppercase tracking-wider text-[#1a1a1a]">
-                            Zabed Mahmud
-                          </div>
-                          <Dialog.Close asChild>
-                            <button className="rounded-full border border-black/10 bg-black/5 p-2 text-[#1a1a1a]">
-                              <HiOutlineX className="text-lg" />
-                            </button>
-                          </Dialog.Close>
-                        </div>
-
-                        <div className="flex flex-col py-6 gap-4">
-                          {navItems.map((item) => (
-                            <Link
-                              key={item.href}
-                              href={item.href}
-                              onClick={() => {
-                                setActive(item.href);
-                                setOpen(false);
-                              }}
-                              className="text-xl font-bold tracking-tight text-[#1a1a1a] hover:text-[#ff5f1a] transition-colors"
-                            >
-                              {item.label}
-                            </Link>
-                          ))}
-                        </div>
-                      </motion.div>
-                    </Dialog.Content>
-                  </Dialog.Portal>
-                )}
-              </AnimatePresence>
-            </Dialog.Root>
-          </div>
-
-        </div>
+          </AnimatePresence>
+        </Dialog.Root>
       </div>
-    </motion.header>
+    </>
   );
 }

@@ -13,7 +13,7 @@ export default function ProjectsPage() {
   return (
     <div className="relative min-h-screen bg-[#eeeeee] text-[#1a1a1a] selection:bg-[#ff5f1a]/20">
       <Navbar />
-      <main className="relative z-10 pt-6">
+      <main className="relative z-10 pt-6 md:pl-16">
         <Projects />
         <CaseStudiesSection />
         <Contact />

@@ -49,6 +49,19 @@ function TechBadge({ name, techKey }) {
 
 const JOURNEY_START = new Date("2026-01-01T00:00:00+06:00").getTime();
 
+function useJourneyMonths() {
+  const [months, setMonths] = useState(8);
+
+  useEffect(() => {
+    const now = new Date();
+    const start = new Date("2026-01-01T00:00:00+06:00");
+    const diffMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+    setMonths(Math.max(1, diffMonths));
+  }, []);
+
+  return months;
+}
+
 function useJourneySeconds() {
   const [mounted, setMounted] = useState(false);
   const [seconds, setSeconds] = useState(0);
@@ -158,28 +171,13 @@ function HoverImage({ src, alt, label }) {
 }
 
 export default function About() {
+  const months = useJourneyMonths();
   const seconds = useJourneySeconds();
 
   return (
     <section id="story" className="relative z-10 pt-8 pb-16 sm:pt-14 sm:pb-24 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto">
         <div className="space-y-10">
-
-          {/* Top Status Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex items-center gap-2"
-          >
-            <span className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-3.5 py-1.5 font-mono text-[11px] font-medium tracking-wide text-black/60 shadow-sm">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-              </span>
-              Full Stack Web Developer 🇧🇩
-            </span>
-          </motion.div>
 
           {/* Main Title Header */}
           <motion.div
@@ -250,8 +248,8 @@ export default function About() {
             className="space-y-4 text-[1.05rem] leading-[1.85] text-black/65 font-normal pt-2"
           >
             <p>
-              I'm a Web Developer, Designer, and Tech Enthusiast from Chittagong, Bangladesh 🇧🇩. I've been coding and building web applications for about 8 months — or <span className="italic">exactly</span>{" "}
-              <span className="font-mono font-extrabold text-[#ff5f1a] tracking-tight px-1 py-0.5 rounded bg-[#ff5f1a]/8 border border-[#ff5f1a]/20">
+              I'm a Web Developer, Designer, and Tech Enthusiast from Chittagong, Bangladesh 🇧🇩. I've been coding and building web applications for about <span className="font-bold text-lg text-[#1a1a1a]">{months}</span> months — or <span className="italic">exactly</span>{" "}
+              <span className="font-mono font-extrabold text-lg sm:text-xl text-[#ff5f1a] tracking-tight px-0.5">
                 {seconds !== null ? (
                   formatSeconds(seconds).split("").map((char, i) => (
                     <AnimatedDigit key={i} char={char} />
@@ -311,8 +309,8 @@ export default function About() {
               By <span className="font-semibold text-[#1a1a1a]">September 2024</span>, I re-ignited my learning. And on <span className="font-semibold text-[#1a1a1a]">December 24, 2025</span>, I enrolled in Programming Hero's web development course.
             </p>
 
-            <p className="leading-[2.2]">
-              <span className="font-semibold text-[#1a1a1a]">January 1, 2026.</span> I went all-in. <TechBadge techKey="html" />, <TechBadge techKey="css" />, <TechBadge techKey="tailwind" />, <TechBadge techKey="javascript" />, <TechBadge techKey="react" />, <TechBadge techKey="next" />, <TechBadge techKey="express" />, <TechBadge techKey="mongo" />, <TechBadge techKey="postgres" />, and <TechBadge techKey="restapi" />. Each piece built upon the last into a full stack workflow.
+            <p>
+              <span className="font-semibold text-[#1a1a1a]">January 1, 2026.</span> I went all-in. HTML, CSS, Tailwind CSS, JavaScript, React, Next.js, Express.js, MongoDB, PostgreSQL, and REST APIs. Each piece built upon the last into a full stack workflow.
             </p>
 
             <p>
