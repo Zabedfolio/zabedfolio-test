@@ -1,6 +1,4 @@
 import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 import Navbar from "@/components/Navbar";
 
 export default function HomePage() {
@@ -9,9 +7,7 @@ export default function HomePage() {
       <Navbar />
       <main className="relative z-10">
         <About />
-        <Contact />
       </main>
-      <Footer />
     </div>
   );
 }

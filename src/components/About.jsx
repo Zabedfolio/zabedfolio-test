@@ -1,24 +1,107 @@
 'use client';
 
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import avtr from "@/assets/avtr.png";
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { useEffect, useState } from 'react';
+import avtr from '@/assets/avtr.png';
+import {
+  SiReact,
+  SiNextdotjs,
+  SiExpress,
+  SiPostgresql,
+  SiMongodb,
+  SiTailwindcss,
+  SiTypescript,
+  SiJavascript,
+  SiHtml5,
+  SiCss,
+} from 'react-icons/si';
+import { HiOutlineGlobeAlt, HiOutlineCode } from 'react-icons/hi';
 
-// Motion variants
-const fade = (delay = 0) => ({
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1], delay },
-  },
-});
-
-const stagger = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
+const TECH_MAP = {
+  react: { name: "ReactJS", icon: SiReact, color: "#00B4D8", bg: "rgba(0, 180, 216, 0.1)", border: "rgba(0, 180, 216, 0.25)" },
+  next: { name: "NextJS", icon: SiNextdotjs, color: "#1a1a1a", bg: "rgba(0, 0, 0, 0.06)", border: "rgba(0, 0, 0, 0.15)" },
+  express: { name: "Express.js", icon: SiExpress, color: "#1a1a1a", bg: "rgba(0, 0, 0, 0.06)", border: "rgba(0, 0, 0, 0.15)" },
+  postgres: { name: "PostgreSQL", icon: SiPostgresql, color: "#336791", bg: "rgba(51, 103, 145, 0.1)", border: "rgba(51, 103, 145, 0.25)" },
+  mongo: { name: "MongoDB", icon: SiMongodb, color: "#13AA52", bg: "rgba(19, 170, 82, 0.1)", border: "rgba(19, 170, 82, 0.25)" },
+  tailwind: { name: "Tailwind CSS", icon: SiTailwindcss, color: "#06B6D4", bg: "rgba(6, 182, 212, 0.1)", border: "rgba(6, 182, 212, 0.25)" },
+  typescript: { name: "TypeScript", icon: SiTypescript, color: "#3178C6", bg: "rgba(49, 120, 198, 0.1)", border: "rgba(49, 120, 198, 0.25)" },
+  javascript: { name: "JavaScript", icon: SiJavascript, color: "#B89600", bg: "rgba(247, 223, 30, 0.15)", border: "rgba(214, 186, 0, 0.3)" },
+  html: { name: "HTML", icon: SiHtml5, color: "#E34F26", bg: "rgba(227, 79, 38, 0.1)", border: "rgba(227, 79, 38, 0.25)" },
+  css: { name: "CSS", icon: SiCss, color: "#1572B6", bg: "rgba(21, 114, 182, 0.1)", border: "rgba(21, 114, 182, 0.25)" },
+  restapi: { name: "REST APIs", icon: HiOutlineGlobeAlt, color: "#ff5f1a", bg: "rgba(255, 95, 26, 0.1)", border: "rgba(255, 95, 26, 0.25)" },
 };
+
+function TechBadge({ name, techKey }) {
+  const item = TECH_MAP[techKey] || { name: name || techKey, icon: HiOutlineCode, color: "#ff5f1a", bg: "rgba(255, 95, 26, 0.1)", border: "rgba(255, 95, 26, 0.2)" };
+  const Icon = item.icon;
+
+  return (
+    <span
+      style={{ backgroundColor: item.bg, borderColor: item.border }}
+      className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-lg border font-mono text-[11.5px] font-bold align-middle mx-0.5 shadow-sm transition-transform hover:scale-105 duration-200"
+    >
+      <Icon style={{ color: item.color }} className="h-3.5 w-3.5 shrink-0" />
+      <span className="text-[#1a1a1a]">{item.name}</span>
+    </span>
+  );
+}
+
+const JOURNEY_START = new Date("2026-01-01T00:00:00+06:00").getTime();
+
+function useJourneySeconds() {
+  const [mounted, setMounted] = useState(false);
+  const [seconds, setSeconds] = useState(0);
+
+  useEffect(() => {
+    setMounted(true);
+    setSeconds(Math.floor((Date.now() - JOURNEY_START) / 1000));
+    const id = setInterval(() => {
+      setSeconds(Math.floor((Date.now() - JOURNEY_START) / 1000));
+    }, 1000);
+    return () => clearInterval(id);
+  }, []);
+
+  return mounted ? seconds : null;
+}
+
+function formatSeconds(s) {
+  return s.toLocaleString("en-US");
+}
+
+function AnimatedDigit({ char }) {
+  const isDigit = /\d/.test(char);
+
+  if (!isDigit) {
+    return <span className="inline-block text-[#ff5f1a]/60">{char}</span>;
+  }
+
+  return (
+    <span
+      className="relative inline-block overflow-hidden"
+      style={{ height: "1.15em", width: "0.62em", verticalAlign: "bottom" }}
+    >
+      <AnimatePresence mode="popLayout" initial={false}>
+        <motion.span
+          key={char}
+          initial={{ y: "100%", opacity: 0, filter: "blur(3px)" }}
+          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
+          exit={{ y: "-100%", opacity: 0, filter: "blur(3px)" }}
+          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "flex-end",
+            justifyContent: "center",
+          }}
+        >
+          {char}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 // Hover image popup component
 function HoverImage({ src, alt, label }) {
@@ -75,150 +158,183 @@ function HoverImage({ src, alt, label }) {
 }
 
 export default function About() {
-  const [skills, setSkills] = useState([
-    { name: "ReactJS & Next.js", category: "Frontend Core" },
-    { name: "Node.js & Express", category: "Backend Runtime" },
-    { name: "PostgreSQL & MongoDB", category: "Databases" },
-    { name: "Tailwind CSS & Framer Motion", category: "UI & Animation" },
-    { name: "TypeScript & JavaScript", category: "Languages" },
-    { name: "Git, GitHub & Vercel", category: "DevOps & Tools" },
-  ]);
-
-  useEffect(() => {
-    fetch("/api/public/skills")
-      .then((res) => res.json())
-      .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setSkills(data);
-      })
-      .catch((err) => console.error(err));
-  }, []);
+  const seconds = useJourneySeconds();
 
   return (
-    <section id="story" className="py-16 sm:py-24">
-      <div className="section-shell">
-        <div className="space-y-16">
+    <section id="story" className="relative z-10 pt-8 pb-16 sm:pt-14 sm:pb-24 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-4xl mx-auto">
+        <div className="space-y-10">
 
-          {/* Top Header Card / Header Banner */}
+          {/* Top Status Badge */}
+          <motion.div
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="flex items-center gap-2"
+          >
+            <span className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-3.5 py-1.5 font-mono text-[11px] font-medium tracking-wide text-black/60 shadow-sm">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              Full Stack Web Developer 🇧🇩
+            </span>
+          </motion.div>
+
+          {/* Main Title Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 pb-12 border-b border-black/8"
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-3"
           >
-            <div className="flex items-center gap-5">
-              <div className="relative h-16 w-16 sm:h-20 sm:w-20 rounded-2xl overflow-hidden border border-black/10 shadow-md bg-white shrink-0">
-                <Image
-                  src={avtr}
-                  alt="Zabed Mahmud"
-                  fill
-                  className="object-cover"
-                  priority
-                />
-              </div>
-              <div>
-                <span className="inline-flex items-center gap-2 rounded-full border border-black/8 bg-white px-3 py-1 font-mono text-[11px] font-medium tracking-wide text-black/60 shadow-sm mb-2">
-                  <span className="relative flex h-2 w-2">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                  </span>
-                  Full Stack Web Developer 🇧🇩
+            {/* Title Line 1 */}
+            <h1 className="text-[clamp(2.5rem,6.5vw,5rem)] font-extrabold leading-[1.1] tracking-[-0.04em] text-[#1a1a1a] flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span>Hey, I'm</span>
+              
+              {/* Avatar Pill Badge */}
+              <span className="inline-flex items-center justify-center p-1 bg-white rounded-2xl border border-black/10 shadow-md shadow-black/5 rotate-[-2deg] transition-transform hover:rotate-0 duration-300">
+                <span className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-xl overflow-hidden block">
+                  <Image
+                    src={avtr}
+                    alt="Zabed Mahmud"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
                 </span>
-                <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#1a1a1a]">
-                  Zabed Mahmud
-                </h1>
-                <p className="text-sm font-medium text-black/50">
-                  Building web solutions, scalable applications & modern user interfaces.
-                </p>
-              </div>
-            </div>
+              </span>
+
+              <span className="text-[#1a1a1a]">Zabed</span>
+            </h1>
+
+            {/* Title Line 2 */}
+            <h2 className="text-[clamp(2.2rem,6vw,4.6rem)] font-extrabold leading-[1.1] tracking-[-0.04em] text-[#1a1a1a] flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span>And I Design</span>
+              
+              {/* Code Icon Pill */}
+              <span className="inline-flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-105 duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-[#ff5f1a]">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+              </span>
+
+              <span>Web Solutions &</span>
+
+              {/* Digital Products Icon Pill */}
+              <span className="inline-flex items-center justify-center h-12 w-12 sm:h-14 sm:w-14 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-105 duration-300">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-6 w-6 text-emerald-400">
+                  <rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect>
+                  <rect x="9" y="9" width="6" height="6"></rect>
+                  <line x1="9" y1="1" x2="9" y2="4"></line>
+                  <line x1="15" y1="1" x2="15" y2="4"></line>
+                  <line x1="9" y1="20" x2="9" y2="23"></line>
+                  <line x1="15" y1="20" x2="15" y2="23"></line>
+                  <line x1="20" y1="9" x2="23" y2="9"></line>
+                  <line x1="20" y1="15" x2="23" y2="15"></line>
+                  <line x1="1" y1="9" x2="4" y2="9"></line>
+                  <line x1="1" y1="15" x2="4" y2="15"></line>
+                </svg>
+              </span>
+
+              <span>Digital Products</span>
+            </h2>
           </motion.div>
 
-          {/* ── Journey Narrative + Stack Story ── */}
+          {/* Intro Paragraphs */}
           <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.08 }}
-            variants={stagger}
-            className="grid gap-16 lg:grid-cols-2 lg:items-start"
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-4 text-[1.05rem] leading-[1.85] text-black/65 font-normal pt-2"
           >
-            {/* Left Column: Story */}
-            <div>
-              <motion.p variants={fade()} className="mb-8 font-mono text-xs uppercase tracking-[0.24em] text-black/35">
-                The Story
-              </motion.p>
-              
-              <div className="space-y-6 text-[1.05rem] leading-[1.85] text-black/60 font-normal">
-                <motion.p variants={fade(0.05)}>
-                  It started in <span className="font-semibold text-[#1a1a1a]">March 2024</span> — I discovered a full web development playlist online. Watching raw code turn into live interactive elements in the browser felt like unlocking a whole new creative world.
-                </motion.p>
+            <p>
+              I'm a Web Developer, Designer, and Tech Enthusiast from Chittagong, Bangladesh 🇧🇩. I've been coding and building web applications for about 8 months — or <span className="italic">exactly</span>{" "}
+              <span className="font-mono font-extrabold text-[#ff5f1a] tracking-tight px-1 py-0.5 rounded bg-[#ff5f1a]/8 border border-[#ff5f1a]/20">
+                {seconds !== null ? (
+                  formatSeconds(seconds).split("").map((char, i) => (
+                    <AnimatedDigit key={i} char={char} />
+                  ))
+                ) : (
+                  <span>328,749,895</span>
+                )}
+              </span>{" "}
+              Seconds!
+            </p>
 
-                <motion.p variants={fade(0.1)} className="relative">
-                  Then came{" "}
-                  <HoverImage
-                    src="https://i.ibb.co.com/rf7qNgB2/credit-prothom-alo.webp"
-                    alt="July Uprising"
-                    label="July 2024"
-                  />
-                  . Bangladesh saw a student uprising, internet blackouts occurred, and momentum paused. Weeks went by, but the passion never truly left.
-                </motion.p>
+            <p className="leading-[2.2]">
+              I use <TechBadge techKey="react" />, <TechBadge techKey="next" />, <TechBadge techKey="express" />, <TechBadge techKey="postgres" />, <TechBadge techKey="mongo" />, <TechBadge techKey="tailwind" />, and <TechBadge techKey="typescript" /> most of the time. My focus is on building clean, high-performance web products, scalable APIs, and intuitive user interfaces.
+            </p>
 
-                <motion.p variants={fade(0.15)}>
-                  By <span className="font-semibold text-[#1a1a1a]">September 2024</span>, I re-ignited my learning. And on <span className="font-semibold text-[#1a1a1a]">December 24, 2025</span>, I enrolled in Programming Hero's web development course.
-                </motion.p>
+            <p>
+              I have developed modern software applications for clients and personal projects, crafting digital experiences that perform seamlessly. I love what I do ❤️.
+            </p>
+          </motion.div>
 
-                <motion.p variants={fade(0.2)}>
-                  <span className="font-semibold text-[#1a1a1a]">January 1, 2026.</span> I went all-in. HTML, CSS, Tailwind CSS, JavaScript, React, Next.js, Express.js, MongoDB, PostgreSQL, and REST APIs. Each piece built upon the last into a full stack workflow.
-                </motion.p>
+          {/* Section Heading: Little more about me.. */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="pt-10 border-t border-black/8"
+          >
+            <h3 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-black/35 font-sans">
+              Little more <span className="text-[#1a1a1a]">about me..</span>
+            </h3>
+          </motion.div>
 
-                <motion.p variants={fade(0.25)}>
-                  My{" "}
-                  <a
-                    href="https://zabedfolio.github.io/Knowledge_A01/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="group/link relative inline-flex items-baseline gap-1 font-semibold text-[#1a1a1a] underline decoration-[#ff5f1a]/50 underline-offset-4 transition-all hover:decoration-[#ff5f1a]"
-                  >
-                    first project
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="currentColor" className="mb-0.5 h-2.5 w-2.5 opacity-40 transition-opacity group-hover/link:opacity-100">
-                      <path d="M3.5 1.5a.5.5 0 0 0 0 1H8.29L1.65 9.15a.5.5 0 1 0 .7.7L9 3.21V8a.5.5 0 0 0 1 0V2a.5.5 0 0 0-.5-.5H3.5Z" />
-                    </svg>
-                  </a>
-                  {" "}was a knowledge-base platform. I'm constantly learning, building real-world applications, and sharpening my skill set every day.
-                </motion.p>
-              </div>
+          {/* Story Narrative Paragraphs */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="space-y-6 text-[1.05rem] leading-[1.85] text-black/65 font-normal"
+          >
+            <p>
+              It started in <span className="font-semibold text-[#1a1a1a]">March 2024</span> — I discovered a full web development playlist online. Watching raw code turn into live interactive elements in the browser felt like unlocking a whole new creative world.
+            </p>
 
-              <motion.blockquote
-                variants={fade(0.3)}
-                className="mt-10 border-l-2 border-[#ff5f1a]/50 pl-5 text-base italic leading-7 text-black/45"
+            <p className="relative">
+              Then came{" "}
+              <HoverImage
+                src="https://i.ibb.co.com/rf7qNgB2/credit-prothom-alo.webp"
+                alt="July Uprising"
+                label="July 2024"
+              />
+              . Bangladesh saw a student uprising, internet blackouts occurred, and momentum paused. Weeks went by, but the passion never truly left.
+            </p>
+
+            <p>
+              By <span className="font-semibold text-[#1a1a1a]">September 2024</span>, I re-ignited my learning. And on <span className="font-semibold text-[#1a1a1a]">December 24, 2025</span>, I enrolled in Programming Hero's web development course.
+            </p>
+
+            <p className="leading-[2.2]">
+              <span className="font-semibold text-[#1a1a1a]">January 1, 2026.</span> I went all-in. <TechBadge techKey="html" />, <TechBadge techKey="css" />, <TechBadge techKey="tailwind" />, <TechBadge techKey="javascript" />, <TechBadge techKey="react" />, <TechBadge techKey="next" />, <TechBadge techKey="express" />, <TechBadge techKey="mongo" />, <TechBadge techKey="postgres" />, and <TechBadge techKey="restapi" />. Each piece built upon the last into a full stack workflow.
+            </p>
+
+            <p>
+              My{" "}
+              <a
+                href="https://zabedfolio.github.io/Knowledge_A01/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group/link relative inline-flex items-baseline gap-1 font-semibold text-[#1a1a1a] underline decoration-[#ff5f1a]/50 underline-offset-4 transition-all hover:decoration-[#ff5f1a]"
               >
-                "The best time to start was yesterday. The second best time is{" "}
-                <span className="font-semibold not-italic text-[#1a1a1a]">right now.</span>"
-              </motion.blockquote>
-            </div>
+                first project
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 12" fill="currentColor" className="mb-0.5 h-2.5 w-2.5 opacity-40 transition-opacity group-hover/link:opacity-100">
+                  <path d="M3.5 1.5a.5.5 0 0 0 0 1H8.29L1.65 9.15a.5.5 0 1 0 .7.7L9 3.21V8a.5.5 0 0 0 1 0V2a.5.5 0 0 0-.5-.5H3.5Z" />
+                </svg>
+              </a>
+              {" "}was a knowledge-base platform. I'm constantly learning, building real-world applications, and sharpening my skill set every day.
+            </p>
 
-            {/* Right Column: Stack & Skills */}
-            <div id="skills" className="lg:sticky lg:top-24">
-              <motion.p variants={fade()} className="mb-8 font-mono text-xs uppercase tracking-[0.24em] text-black/35">
-                Tech Stack & Toolkit
-              </motion.p>
-
-              <div className="space-y-3">
-                {skills.map((item, i) => (
-                  <motion.div
-                    key={item.name}
-                    variants={fade(i * 0.04)}
-                    className="group flex items-center justify-between rounded-2xl border border-black/8 bg-white px-5 py-3.5 shadow-sm transition-all duration-300 hover:border-[#ff5f1a]/30 hover:shadow-md hover:shadow-[#ff5f1a]/5"
-                  >
-                    <span className="font-semibold text-sm text-black/75 transition-colors group-hover:text-[#1a1a1a]">
-                      {item.name}
-                    </span>
-                    <span className="font-mono text-[11px] text-black/40 transition-colors group-hover:text-black/60 bg-black/4 px-2.5 py-1 rounded-md">
-                      {item.category}
-                    </span>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+            <blockquote className="mt-8 border-l-2 border-[#ff5f1a]/50 pl-5 text-base italic leading-7 text-black/50">
+              "The best time to start was yesterday. The second best time is{" "}
+              <span className="font-semibold not-italic text-[#1a1a1a]">right now.</span>"
+            </blockquote>
           </motion.div>
 
         </div>

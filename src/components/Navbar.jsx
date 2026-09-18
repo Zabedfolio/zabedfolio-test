@@ -88,8 +88,8 @@ export default function Navbar() {
           </nav>
 
           {/* Actions */}
-          <div className="hidden md:flex items-center gap-3">
-            {(session?.user || isAdminLocal) && (
+          {(session?.user || isAdminLocal) && (
+            <div className="hidden md:flex items-center gap-3">
               <Link
                 href="/admin"
                 title="Go to Admin Dashboard"
@@ -97,16 +97,8 @@ export default function Navbar() {
               >
                 <HiOutlineShieldCheck className="text-lg" />
               </Link>
-            )}
-            <motion.a
-              href="/resume"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.97 }}
-              className="rounded-full border border-[#ff5f1a]/30 bg-white px-5 py-2 text-xs font-semibold tracking-wide text-[#1a1a1a] shadow-sm transition-all hover:border-[#ff5f1a] hover:bg-[#ff5f1a] hover:text-white"
-            >
-              My Resume
-            </motion.a>
-          </div>
+            </div>
+          )}
 
           {/* Mobile Menu Button */}
           <div className="flex items-center gap-2 md:hidden">
@@ -170,16 +162,6 @@ export default function Navbar() {
                               {item.label}
                             </Link>
                           ))}
-                        </div>
-
-                        <div className="pt-2 border-t border-black/5 flex flex-col gap-3">
-                          <a
-                            href="/resume"
-                            onClick={() => setOpen(false)}
-                            className="rounded-2xl border border-[#ff5f1a]/30 bg-[#ff5f1a] px-5 py-3 text-center text-sm font-semibold text-white shadow-md shadow-[#ff5f1a]/20"
-                          >
-                            My Resume
-                          </a>
                         </div>
                       </motion.div>
                     </Dialog.Content>

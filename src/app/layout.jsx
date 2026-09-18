@@ -1,7 +1,6 @@
 import { GeistMono, GeistSans } from "geist/font";
 import { Pacifico } from "next/font/google";
 import CustomCursor from "@/components/CustomCursor";
-import FloatingPortal from "@/components/FloatingPortal";
 import MacIntroLoader from "@/components/MacIntroLoader";
 import "./globals.css";
 
@@ -47,7 +46,6 @@ export default function RootLayout({ children }) {
         <MacIntroLoader />
         <CustomCursor />
         {children}
-        <FloatingPortal />
       </body>
     </html>
   );
