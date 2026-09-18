@@ -1,6 +1,5 @@
 import { GeistMono, GeistSans } from "geist/font";
 import { Pacifico } from "next/font/google";
-import CustomCursor from "@/components/CustomCursor";
 import "./globals.css";
 
 const pacifico = Pacifico({
@@ -42,7 +41,6 @@ export default function RootLayout({ children }) {
       className={`${GeistSans.variable} ${GeistMono.variable} ${pacifico.variable}`}
     >
       <body>
-        <CustomCursor />
         {children}
       </body>
     </html>

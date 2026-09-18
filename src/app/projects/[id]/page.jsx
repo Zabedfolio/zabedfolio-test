@@ -1,10 +1,14 @@
+import Navbar from "@/components/Navbar";
 import ProjectDetails from "@/components/ProjectDetails";
 
 export default async function ProjectPage({ params }) {
   const { id } = await params;
   return (
-    <main className="min-h-screen bg-[radial-gradient(circle_at_top,rgba(255,77,0,0.08),transparent_30%),linear-gradient(180deg,#0a0808_0%,#050505_100%)] text-white">
-      <ProjectDetails projectId={id} />
-    </main>
+    <div className="relative min-h-screen bg-[#eeeeee] text-[#1a1a1a] selection:bg-[#ff5f1a]/20">
+      <Navbar />
+      <main className="relative z-10 pt-6 md:pl-16">
+        <ProjectDetails projectId={id} />
+      </main>
+    </div>
   );
 }

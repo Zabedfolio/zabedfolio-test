@@ -86,32 +86,12 @@ function AnimatedDigit({ char }) {
   const isDigit = /\d/.test(char);
 
   if (!isDigit) {
-    return <span className="inline-block text-[#ff5f1a]/60 px-[1px]">{char}</span>;
+    return <span className="text-[#ff5f1a]/60 px-[0.5px]">{char}</span>;
   }
 
   return (
-    <span
-      className="relative inline-block overflow-hidden font-mono tabular-nums align-baseline"
-      style={{ height: "1.2em", width: "0.62em" }}
-    >
-      <AnimatePresence mode="popLayout" initial={false}>
-        <motion.span
-          key={char}
-          initial={{ y: "60%", opacity: 0 }}
-          animate={{ y: "0%", opacity: 1 }}
-          exit={{ y: "-60%", opacity: 0 }}
-          transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
-        >
-          {char}
-        </motion.span>
-      </AnimatePresence>
+    <span className="inline-block font-mono font-extrabold text-[#ff5f1a] tabular-nums">
+      {char}
     </span>
   );
 }
@@ -249,7 +229,7 @@ export default function About() {
           >
             <p>
               I'm a Web Developer, Designer, and Tech Enthusiast from Chittagong, Bangladesh 🇧🇩. I've been coding and building web applications for about <span className="font-bold text-lg text-[#1a1a1a]">{months}</span> months — or <span className="italic">exactly</span>{" "}
-              <span className="font-mono font-extrabold text-lg sm:text-xl text-[#ff5f1a] tracking-tight px-0.5 tabular-nums inline-flex items-baseline">
+              <span className="font-mono font-extrabold text-base sm:text-lg text-[#ff5f1a] tracking-tight px-1 tabular-nums inline-flex items-baseline">
                 {seconds !== null ? (
                   formatSeconds(seconds).split("").map((char, i, arr) => {
                     const posFromRight = arr.length - 1 - i;

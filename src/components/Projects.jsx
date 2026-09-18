@@ -8,17 +8,22 @@ import { fetchProjects } from "@/utils/projectApi";
 import { fallbackProjects } from "@/data/fallbackProjects";
 
 export default function Projects() {
-  const [projects, setProjects] = useState(fallbackProjects);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const loadProjects = useCallback(async () => {
     try {
+      setLoading(true);
       const data = await fetchProjects();
       if (Array.isArray(data) && data.length > 0) {
         setProjects(data);
+      } else {
+        setProjects(fallbackProjects);
       }
     } catch {
-      // Use fallbackProjects if network fails
       setProjects(fallbackProjects);
+    } finally {
+      setLoading(false);
     }
   }, []);
 
@@ -98,9 +103,24 @@ export default function Projects() {
           Selected work with premium execution and product clarity.
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {projects.map((project, index) => renderProjectCard(project, index))}
-        </div>
+        {loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="overflow-hidden rounded-3xl border border-black/8 bg-white p-6 space-y-4 shadow-sm animate-pulse">
+                <div className="h-48 rounded-2xl bg-black/5" />
+                <div className="space-y-2">
+                  <div className="h-3 w-28 rounded bg-black/10" />
+                  <div className="h-6 w-2/3 rounded bg-black/10" />
+                  <div className="h-12 rounded bg-black/5" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {projects.map((project, index) => renderProjectCard(project, index))}
+          </div>
+        )}
       </div>
     </div>
   );
