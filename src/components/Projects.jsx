@@ -137,33 +137,23 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="space-y-4 pt-2">
-          <div className="flex flex-wrap gap-1.5">
-            {project.tags.map((tag) => (
-              <span key={tag} className="rounded-full border border-black/8 bg-black/3 px-2.5 py-1 font-mono text-[10px] text-black/50">
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div className="pt-2 border-t border-black/5 flex items-center justify-between">
-            <Link 
-              href={`/projects/${project.id}`} 
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#ff5f1a] hover:underline underline-offset-4"
+        <div className="pt-4 border-t border-black/5 flex items-center justify-between">
+          <Link 
+            href={`/projects/${project.id}`} 
+            className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#ff5f1a] hover:underline underline-offset-4"
+          >
+            View Case Study <span aria-hidden>→</span>
+          </Link>
+          {project.liveUrl && (
+            <a
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-mono text-[10px] text-black/40 hover:text-black font-semibold uppercase tracking-wider"
             >
-              View Case Study <span aria-hidden>→</span>
-            </Link>
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-mono text-[10px] text-black/40 hover:text-black font-semibold uppercase tracking-wider"
-              >
-                Live Demo ↗
-              </a>
-            )}
-          </div>
+              Live Demo ↗
+            </a>
+          )}
         </div>
       </div>
     </motion.article>

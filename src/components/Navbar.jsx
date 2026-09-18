@@ -10,17 +10,16 @@ import { HiOutlineMenuAlt4, HiOutlineX, HiOutlineShieldCheck } from "react-icons
 import avtr from "@/assets/avtr.png";
 
 const navItems = [
-  { href: "#story", label: "Story" },
-  { href: "#stats", label: "Stats" },
-  { href: "#skills", label: "Skills" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" }
+  { href: "/#story", label: "Story" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/projects", label: "Projects" },
+  { href: "/#contact", label: "Contact" }
 ];
 
 export default function Navbar() {
   const { data: session } = useSession();
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState("#story");
+  const [active, setActive] = useState("/#story");
   const { scrollY } = useScroll();
   const [isAdminLocal, setIsAdminLocal] = useState(false);
 
@@ -47,7 +46,7 @@ export default function Navbar() {
         <div className="flex h-16 sm:h-20 items-center justify-between gap-4">
           
           {/* Logo / Brand */}
-          <Link href="#" className="relative z-10 flex items-center gap-3 group">
+          <Link href="/" className="relative z-10 flex items-center gap-3 group">
             <div className="relative h-9 w-9 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-[#ff5f1a]/50">
               <Image
                 src={avtr}
@@ -70,7 +69,7 @@ export default function Navbar() {
           {/* Desktop Nav Items */}
           <nav className="hidden rounded-full border border-black/8 bg-white/80 p-1.5 shadow-sm backdrop-blur-md md:flex items-center gap-1">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.href}
                 href={item.href}
                 onClick={() => setActive(item.href)}
@@ -84,7 +83,7 @@ export default function Navbar() {
                   />
                 )}
                 <span className="relative z-10">{item.label}</span>
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -159,7 +158,7 @@ export default function Navbar() {
 
                         <div className="flex flex-col py-6 gap-4">
                           {navItems.map((item) => (
-                            <a
+                            <Link
                               key={item.href}
                               href={item.href}
                               onClick={() => {
@@ -169,7 +168,7 @@ export default function Navbar() {
                               className="text-xl font-bold tracking-tight text-[#1a1a1a] hover:text-[#ff5f1a] transition-colors"
                             >
                               {item.label}
-                            </a>
+                            </Link>
                           ))}
                         </div>
 
