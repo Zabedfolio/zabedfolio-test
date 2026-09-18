@@ -50,12 +50,12 @@ function TechBadge({ name, techKey }) {
 const JOURNEY_START = new Date("2026-01-01T00:00:00+06:00").getTime();
 
 function useJourneyMonths() {
-  const [months, setMonths] = useState(8);
+  const [months, setMonths] = useState(9);
 
   useEffect(() => {
     const now = new Date();
     const start = new Date("2026-01-01T00:00:00+06:00");
-    const diffMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth());
+    const diffMonths = (now.getFullYear() - start.getFullYear()) * 12 + (now.getMonth() - start.getMonth()) + 1;
     setMonths(Math.max(1, diffMonths));
   }, []);
 
@@ -86,26 +86,26 @@ function AnimatedDigit({ char }) {
   const isDigit = /\d/.test(char);
 
   if (!isDigit) {
-    return <span className="inline-block text-[#ff5f1a]/60">{char}</span>;
+    return <span className="inline-block text-[#ff5f1a]/60 px-[1px]">{char}</span>;
   }
 
   return (
     <span
-      className="relative inline-block overflow-hidden"
-      style={{ height: "1.15em", width: "0.62em", verticalAlign: "bottom" }}
+      className="relative inline-block overflow-hidden font-mono tabular-nums align-baseline"
+      style={{ height: "1.2em", width: "0.62em" }}
     >
       <AnimatePresence mode="popLayout" initial={false}>
         <motion.span
           key={char}
-          initial={{ y: "100%", opacity: 0, filter: "blur(3px)" }}
-          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-          exit={{ y: "-100%", opacity: 0, filter: "blur(3px)" }}
-          transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ y: "60%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-60%", opacity: 0 }}
+          transition={{ duration: 0.28, ease: [0.16, 1, 0.3, 1] }}
           style={{
             position: "absolute",
             inset: 0,
             display: "flex",
-            alignItems: "flex-end",
+            alignItems: "center",
             justifyContent: "center",
           }}
         >
@@ -249,13 +249,14 @@ export default function About() {
           >
             <p>
               I'm a Web Developer, Designer, and Tech Enthusiast from Chittagong, Bangladesh 🇧🇩. I've been coding and building web applications for about <span className="font-bold text-lg text-[#1a1a1a]">{months}</span> months — or <span className="italic">exactly</span>{" "}
-              <span className="font-mono font-extrabold text-lg sm:text-xl text-[#ff5f1a] tracking-tight px-0.5">
+              <span className="font-mono font-extrabold text-lg sm:text-xl text-[#ff5f1a] tracking-tight px-0.5 tabular-nums inline-flex items-baseline">
                 {seconds !== null ? (
-                  formatSeconds(seconds).split("").map((char, i) => (
-                    <AnimatedDigit key={i} char={char} />
-                  ))
+                  formatSeconds(seconds).split("").map((char, i, arr) => {
+                    const posFromRight = arr.length - 1 - i;
+                    return <AnimatedDigit key={posFromRight} char={char} />;
+                  })
                 ) : (
-                  <span>328,749,895</span>
+                  <span>...</span>
                 )}
               </span>{" "}
               Seconds!

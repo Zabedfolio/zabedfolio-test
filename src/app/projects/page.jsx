@@ -1,8 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
 
 export const metadata = {
   title: "Projects — Zabed Mahmud",
@@ -16,9 +14,7 @@ export default function ProjectsPage() {
       <main className="relative z-10 pt-6 md:pl-16">
         <Projects />
         <CaseStudiesSection />
-        <Contact />
       </main>
-      <Footer />
     </div>
   );
 }
