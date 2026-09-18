@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getDb } from "@/lib/mongodb";
+import { fallbackProjects } from "@/data/fallbackProjects";
 
 export async function GET() {
   try {
@@ -10,8 +11,12 @@ export async function GET() {
       .sort({ order: 1 })
       .toArray();
 
-    return NextResponse.json(projects);
+    if (projects && projects.length > 0) {
+      return NextResponse.json(projects);
+    }
+    return NextResponse.json(fallbackProjects);
   } catch (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error("GET /api/projects error:", error);
+    return NextResponse.json(fallbackProjects);
   }
 }
