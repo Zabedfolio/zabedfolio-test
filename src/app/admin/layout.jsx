@@ -64,14 +64,14 @@ export default function AdminLayout({ children }) {
   };
 
   return (
-    <div className="min-h-screen bg-[#eeeeee] text-[#1a1a1a] flex selection:bg-[#ff5f1a]/20">
+    <div className="h-screen w-screen overflow-hidden bg-[#eeeeee] text-[#1a1a1a] flex selection:bg-[#ff5f1a]/20">
       {/* Sidebar for Desktop */}
       <aside 
-        className={`hidden md:flex flex-col bg-white border-r border-black/8 h-screen sticky top-0 flex-shrink-0 transition-all duration-300 z-30 shadow-sm ${
+        className={`hidden md:flex flex-col bg-white border-r border-black/8 h-full flex-shrink-0 transition-all duration-300 z-30 shadow-sm ${
           isCollapsed ? "w-20" : "w-64"
         }`}
       >
-        <div className="h-20 flex items-center justify-between px-5 border-b border-black/8">
+        <div className="h-20 flex items-center justify-between px-5 border-b border-black/8 flex-shrink-0">
           <Link href="/admin" className="flex items-center gap-3 group overflow-hidden">
             <div className="relative h-9 w-9 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-[#ff5f1a]/50 flex-shrink-0">
               <Image
@@ -126,7 +126,7 @@ export default function AdminLayout({ children }) {
           })}
         </nav>
 
-        <div className="p-3 border-t border-black/8 space-y-2">
+        <div className="p-3 border-t border-black/8 space-y-2 flex-shrink-0">
           <Link
             href="/"
             target="_blank"
@@ -153,9 +153,9 @@ export default function AdminLayout({ children }) {
         </div>
       </aside>
 
-      {/* Mobile Top Navbar */}
-      <div className="flex-1 flex flex-col min-w-0">
-        <header className="md:hidden h-16 flex items-center justify-between px-6 bg-white/90 border-b border-black/8 backdrop-blur-xl sticky top-0 z-40">
+      {/* Mobile Top Navbar & Right Scrollable Main Content Column */}
+      <div className="flex-1 flex flex-col min-w-0 h-full overflow-hidden">
+        <header className="md:hidden h-16 flex items-center justify-between px-6 bg-white/90 border-b border-black/8 backdrop-blur-xl sticky top-0 z-40 flex-shrink-0">
           <Link href="/admin" className="flex items-center gap-2.5 group">
             <div className="relative h-8 w-8 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm">
               <Image
@@ -222,8 +222,8 @@ export default function AdminLayout({ children }) {
           </div>
         )}
 
-        {/* Dashboard Content Container */}
-        <main className="flex-1 p-6 md:p-10 max-w-6xl w-full mx-auto overflow-y-auto">
+        {/* Dashboard Content Container with Independent Vertical Scrollbar */}
+        <main className="flex-1 p-6 md:p-10 max-w-6xl w-full mx-auto overflow-y-auto h-full">
           {children}
         </main>
       </div>
