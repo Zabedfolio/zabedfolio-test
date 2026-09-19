@@ -96,7 +96,7 @@ export default function ProjectDetails({ projectId }) {
             </div>
           ) : null}
 
-          <div className="space-y-10 p-6 sm:p-10 sm:-mt-16 relative z-10">
+          <div className="space-y-10 p-6 sm:p-10 pt-8 sm:pt-10 relative z-10">
             <div className="space-y-4">
               <div className="flex flex-wrap items-center gap-3">
                 <span className="rounded-full bg-[#ff5f1a] px-3.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-white">

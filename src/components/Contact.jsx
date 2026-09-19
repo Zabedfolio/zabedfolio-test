@@ -75,15 +75,11 @@ export default function Contact() {
   };
 
   return (
-    <div id="contact" className="section-shell py-12 sm:py-20">
+    <div id="contact" className="section-shell pt-24 pb-28 sm:pt-36 sm:pb-40">
       <div className="grid gap-10 lg:grid-cols-5 items-start">
         {/* Left Column: Heading & Info Cards */}
         <div className="space-y-8 lg:col-span-2">
           <div className="space-y-4">
-            <span className="inline-flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 px-3.5 py-1 text-[11px] font-mono font-bold uppercase tracking-wider text-emerald-700 shadow-sm">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              Available for Freelance & Full-time Roles
-            </span>
 
             <h1 className="text-[clamp(2.2rem,4.5vw,3.8rem)] font-extrabold leading-[1.08] tracking-tight text-[#1a1a1a] flex flex-wrap items-center gap-x-2.5 gap-y-1.5">
               <span>Let's build</span>

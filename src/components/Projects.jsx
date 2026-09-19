@@ -61,7 +61,15 @@ export default function Projects() {
         <div className="p-6 space-y-3">
           <div className="flex items-center justify-between font-mono text-[11px] font-bold uppercase tracking-wider text-black/40">
             <span>{String(index + 1).padStart(2, "0")} · {project.year || "2026"}</span>
-            <span className="text-[#ff5f1a] font-semibold">{project.category || "Full Stack"}</span>
+            <div className="flex items-center gap-2">
+              {project.status === "running" && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 border border-emerald-200 px-2 py-0.5 text-[10px] text-emerald-700 font-bold tracking-normal normal-case">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                  Running
+                </span>
+              )}
+              <span className="text-[#ff5f1a] font-semibold">{project.category || "Full Stack"}</span>
+            </div>
           </div>
 
           <h3 className="text-xl font-bold tracking-tight text-[#1a1a1a] group-hover:text-[#ff5f1a] transition-colors duration-200">

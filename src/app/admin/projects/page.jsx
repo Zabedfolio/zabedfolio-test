@@ -8,6 +8,8 @@ import {
   HiOutlineSelector,
 } from "react-icons/hi";
 
+const UPCOMING_PLACEHOLDER_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='800' height='500' viewBox='0 0 800 500'%3E%3Crect width='800' height='500' fill='%23222226'/%3E%3Cpath d='M0 0l800 500M800 0L0 500' stroke='%232b2b30' stroke-width='1.5'/%3E%3Ccircle cx='400' cy='250' r='60' fill='%231a1a1c' stroke='%2338383e' stroke-width='2'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='sans-serif' font-size='20' font-weight='bold' fill='%23ff5f1a' letter-spacing='4'%3EUPCOMING PROJECT%3C/text%3E%3C/svg%3E";
+
 export default function AdminProjects() {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,6 +20,7 @@ export default function AdminProjects() {
   // Form State
   const [formData, setFormData] = useState({
     title: "",
+    status: "completed",
     category: "",
     year: "",
     image: "",
@@ -54,6 +57,7 @@ export default function AdminProjects() {
     setEditingProject(null);
     setFormData({
       title: "",
+      status: "completed",
       category: "Full Stack",
       year: new Date().getFullYear().toString(),
       image: "",
@@ -71,6 +75,7 @@ export default function AdminProjects() {
     setEditingProject(project);
     setFormData({
       title: project.title || "",
+      status: project.status || "completed",
       category: project.category || "",
       year: project.year || "",
       image: project.image || "",
@@ -93,13 +98,18 @@ export default function AdminProjects() {
     e.preventDefault();
     setSaving(true);
 
+    const isUpcoming = formData.status === "upcoming";
     const payload = {
       ...formData,
+      status: formData.status || "completed",
+      category: formData.category || (isUpcoming ? "Upcoming" : "Full Stack"),
+      year: formData.year || new Date().getFullYear().toString(),
+      image: formData.image || (isUpcoming ? UPCOMING_PLACEHOLDER_IMAGE : ""),
+      description: formData.description || (isUpcoming ? "Upcoming project currently in architectural planning phase." : ""),
       id: formData.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
       tags: formData.tags
-        .split(",")
-        .map((t) => t.trim())
-        .filter((t) => t.length > 0),
+        ? formData.tags.split(",").map((t) => t.trim()).filter((t) => t.length > 0)
+        : [],
     };
 
     try {
@@ -236,6 +246,15 @@ export default function AdminProjects() {
                         <span className="text-[10px] font-mono font-semibold px-2 py-0.5 rounded-md bg-black/4 border border-black/8 text-black/60">
                           {project.category}
                         </span>
+                        <span className={`text-[10px] font-mono font-bold px-2 py-0.5 rounded-md border ${
+                          project.status === "upcoming"
+                            ? "bg-amber-50 text-amber-700 border-amber-200"
+                            : project.status === "running"
+                            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+                            : "bg-blue-50 text-blue-700 border-blue-200"
+                        }`}>
+                          {project.status === "upcoming" ? "⏳ Upcoming" : project.status === "running" ? "🟢 Running" : "Completed"}
+                        </span>
                       </div>
                       <p className="text-xs text-black/50 truncate max-w-lg mt-1 font-normal">
                         {project.description}
@@ -273,11 +292,33 @@ export default function AdminProjects() {
             </h2>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Project Status Selector */}
+              <div className="rounded-2xl border border-black/8 bg-black/2 p-4 space-y-2">
+                <label className="block text-[11px] font-mono font-bold uppercase tracking-wider text-black/60">
+                  Project Status / Type
+                </label>
+                <select
+                  name="status"
+                  value={formData.status}
+                  onChange={handleInputChange}
+                  className="w-full sm:w-1/2 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-bold text-[#1a1a1a] transition focus:border-[#ff5f1a] focus:outline-none"
+                >
+                  <option value="completed">Completed Project</option>
+                  <option value="running">🟢 Running / In Development</option>
+                  <option value="upcoming">⏳ Upcoming Project</option>
+                </select>
+                {formData.status === "upcoming" && (
+                  <p className="text-xs font-semibold text-[#ff5f1a] pt-1">
+                    💡 Note: For upcoming projects, only Project Title is required. A sleek default gray banner will be assigned automatically if no mockup URL is provided.
+                  </p>
+                )}
+              </div>
+
               {/* Row 1: Title, Category, Year */}
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
                 <div className="sm:col-span-2">
                   <label className="block text-[11px] font-mono font-semibold uppercase tracking-wider text-black/50 mb-2">
-                    Project Title
+                    Project Title *
                   </label>
                   <input
                     type="text"
@@ -306,6 +347,7 @@ export default function AdminProjects() {
                     <option value="Mobile">Mobile</option>
                     <option value="Design">Design</option>
                     <option value="UI Library">UI Library</option>
+                    <option value="Upcoming">Upcoming</option>
                   </select>
                 </div>
 
@@ -315,7 +357,7 @@ export default function AdminProjects() {
                   </label>
                   <input
                     type="text"
-                    required
+                    required={formData.status !== "upcoming"}
                     name="year"
                     value={formData.year}
                     onChange={handleInputChange}
@@ -362,7 +404,7 @@ export default function AdminProjects() {
                   Short Description
                 </label>
                 <textarea
-                  required
+                  required={formData.status !== "upcoming"}
                   name="description"
                   rows={2}
                   value={formData.description}

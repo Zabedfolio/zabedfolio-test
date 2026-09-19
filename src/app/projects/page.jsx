@@ -1,5 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Projects from "@/components/Projects";
+import UpcomingProjects from "@/components/UpcomingProjects";
 import CaseStudiesSection from "@/components/CaseStudiesSection";
 
 export const metadata = {
@@ -13,6 +14,7 @@ export default function ProjectsPage() {
       <Navbar />
       <main className="relative z-10 pt-6 md:pl-16">
         <Projects />
+        <UpcomingProjects />
         <CaseStudiesSection />
       </main>
     </div>
