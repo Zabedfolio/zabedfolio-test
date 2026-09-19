@@ -170,17 +170,15 @@ export default function About() {
             <h1 className="text-[clamp(2.5rem,6.5vw,5rem)] font-extrabold leading-[1.1] tracking-[-0.04em] text-[#1a1a1a] flex flex-wrap items-center gap-x-3 gap-y-2">
               <span>Hey, I'm</span>
               
-              {/* Avatar Pill Badge */}
-              <span className="inline-flex items-center justify-center p-1 bg-white rounded-2xl border border-black/10 shadow-md shadow-black/5 rotate-[-2deg] transition-transform hover:rotate-0 duration-300">
-                <span className="relative h-12 w-12 sm:h-16 sm:w-16 rounded-xl overflow-hidden block">
-                  <Image
-                    src={avtr}
-                    alt="Zabed Mahmud"
-                    fill
-                    className="object-cover"
-                    priority
-                  />
-                </span>
+              {/* Avatar Vector Badge */}
+              <span className="relative inline-block h-14 w-14 sm:h-20 sm:w-20 rounded-2xl overflow-hidden shadow-md shadow-black/10 rotate-[-3deg] transition-all duration-300 ease-out hover:rotate-0 hover:scale-110 hover:shadow-xl hover:shadow-[#ff5f1a]/25 shrink-0 align-middle">
+                <Image
+                  src={avtr}
+                  alt="Zabed Mahmud"
+                  fill
+                  className="object-cover"
+                  priority
+                />
               </span>
 
               <span className="text-[#1a1a1a]">Zabed</span>

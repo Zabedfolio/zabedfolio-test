@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { HiOutlineFolder, HiOutlineSparkles } from "react-icons/hi";
 import { fetchProjects } from "@/utils/projectApi";
 import { fallbackProjects } from "@/data/fallbackProjects";
 
@@ -99,8 +100,16 @@ export default function Projects() {
   return (
     <div id="projects" className="section-shell py-16 sm:py-24">
       <div className="space-y-10">
-        <h2 className="section-title max-w-3xl">
-          Selected work with premium execution and product clarity.
+        <h2 className="text-[clamp(2.2rem,5vw,4.2rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] max-w-4xl flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span>Selected work</span>
+          <span className="inline-flex items-center justify-center h-10 w-10 sm:h-13 sm:w-13 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-110 duration-300 shrink-0">
+            <HiOutlineFolder className="h-5 w-5 sm:h-6 sm:w-6 text-[#ff5f1a]" />
+          </span>
+          <span>with premium execution</span>
+          <span className="inline-flex items-center justify-center h-10 w-10 sm:h-13 sm:w-13 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-110 duration-300 shrink-0">
+            <HiOutlineSparkles className="h-5 w-5 sm:h-6 sm:w-6 text-emerald-400" />
+          </span>
+          <span>and product clarity.</span>
         </h2>
 
         {loading ? (

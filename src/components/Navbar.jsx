@@ -137,6 +137,16 @@ export default function Navbar() {
           </AnimatePresence>
         </Dialog.Root>
       </div>
+
+      {/* Top Right Fixed 'Wanna talk?' CTA Button */}
+      <div className="fixed top-5 right-5 sm:right-8 z-50">
+        <Link
+          href="/contact"
+          className="inline-flex items-center justify-center rounded-full bg-[#ff5f1a] hover:bg-[#e04d0d] px-5 py-2.5 text-xs font-bold text-white shadow-lg shadow-[#ff5f1a]/25 transition-all duration-300 hover:scale-105 active:scale-95 tracking-wide"
+        >
+          Wanna talk?
+        </Link>
+      </div>
     </>
   );
 }
