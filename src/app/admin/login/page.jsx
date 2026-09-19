@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { signIn } from "@/lib/auth-client";
 import Link from "next/link";
 import Image from "next/image";
-import avtr from "@/assets/avtr.png";
+import mainPic from "@/assets/main-pic.jpg";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -50,7 +50,7 @@ export default function LoginPage() {
           <Link href="/" className="inline-flex items-center gap-3 group mb-4">
             <div className="relative h-10 w-10 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm transition-transform group-hover:scale-105">
               <Image
-                src={avtr}
+                src={mainPic}
                 alt="Zabed Mahmud"
                 fill
                 className="object-cover rounded-[10px]"

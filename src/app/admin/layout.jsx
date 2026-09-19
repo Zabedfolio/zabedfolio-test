@@ -5,7 +5,7 @@ import { signOut } from "@/lib/auth-client";
 import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import avtr from "@/assets/avtr.png";
+import mainPic from "@/assets/main-pic.jpg";
 import {
   HiOutlineBriefcase,
   HiOutlineAcademicCap,
@@ -75,7 +75,7 @@ export default function AdminLayout({ children }) {
           <Link href="/admin" className="flex items-center gap-3 group overflow-hidden">
             <div className="relative h-9 w-9 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm transition-all duration-300 group-hover:scale-105 group-hover:border-[#ff5f1a]/50 flex-shrink-0">
               <Image
-                src={avtr}
+                src={mainPic}
                 alt="Zabed Mahmud"
                 fill
                 className="object-cover rounded-[10px]"
@@ -159,7 +159,7 @@ export default function AdminLayout({ children }) {
           <Link href="/admin" className="flex items-center gap-2.5 group">
             <div className="relative h-8 w-8 overflow-hidden rounded-xl border border-black/10 bg-white p-0.5 shadow-sm">
               <Image
-                src={avtr}
+                src={mainPic}
                 alt="Zabed Mahmud"
                 fill
                 className="object-cover rounded-[8px]"
