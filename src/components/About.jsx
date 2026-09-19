@@ -171,7 +171,7 @@ export default function About() {
               <span>Hey, I'm</span>
               
               {/* Avatar Vector Badge */}
-              <span className="relative inline-block h-14 w-14 sm:h-20 sm:w-20 rounded-2xl overflow-hidden shadow-md shadow-black/10 rotate-[-3deg] transition-all duration-300 ease-out hover:rotate-0 hover:scale-110 hover:shadow-xl hover:shadow-[#ff5f1a]/25 shrink-0 align-middle">
+              <span className="relative inline-block h-14 w-14 sm:h-20 sm:w-20 rounded-2xl overflow-hidden shadow-md shadow-black/10 rotate-[-3deg] transition-all duration-300 ease-out hover:rotate-0 hover:scale-150 hover:z-30 hover:shadow-2xl hover:shadow-[#ff5f1a]/40 shrink-0 align-middle">
                 <Image
                   src={mainPic}
                   alt="Zabed Mahmud"

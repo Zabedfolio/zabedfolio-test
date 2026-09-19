@@ -17,7 +17,8 @@ export default function Projects() {
       setLoading(true);
       const data = await fetchProjects();
       if (Array.isArray(data) && data.length > 0) {
-        setProjects(data);
+        const liveProjects = data.filter((p) => p.status !== "upcoming");
+        setProjects(liveProjects.length > 0 ? liveProjects : fallbackProjects);
       } else {
         setProjects(fallbackProjects);
       }

@@ -71,8 +71,8 @@ export default function UpcomingProjects() {
 
           <h2 className="text-[clamp(2.2rem,5vw,4rem)] font-extrabold leading-[1.1] tracking-[-0.03em] text-[#1a1a1a] flex flex-wrap items-center gap-x-3 gap-y-2">
             <span>Upcoming Projects</span>
-            <span className="inline-flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-[#1a1a1a] text-white shadow-lg shadow-black/10 transition-transform hover:scale-110 duration-300 shrink-0">
-              <HiOutlineClock className="h-5 w-5 sm:h-6 sm:w-6 text-amber-400" />
+            <span className="inline-flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 rounded-2xl bg-[#1a1a1a] text-lg sm:text-xl shadow-lg shadow-black/10 transition-transform hover:scale-110 duration-300 shrink-0">
+              ⏳
             </span>
             <span>on the horizon.</span>
           </h2>
