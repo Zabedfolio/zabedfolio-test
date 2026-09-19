@@ -253,7 +253,7 @@ export default function AdminProjects() {
                             ? "bg-emerald-50 text-emerald-700 border-emerald-200"
                             : "bg-blue-50 text-blue-700 border-blue-200"
                         }`}>
-                          {project.status === "upcoming" ? "⏳ Upcoming" : project.status === "running" ? "🟢 Running" : "Completed"}
+                          {project.status === "upcoming" ? "Upcoming" : project.status === "running" ? "Running" : "Completed"}
                         </span>
                       </div>
                       <p className="text-xs text-black/50 truncate max-w-lg mt-1 font-normal">
@@ -304,12 +304,12 @@ export default function AdminProjects() {
                   className="w-full sm:w-1/2 rounded-2xl border border-black/10 bg-white px-4 py-3 text-sm font-bold text-[#1a1a1a] transition focus:border-[#ff5f1a] focus:outline-none"
                 >
                   <option value="completed">Completed Project</option>
-                  <option value="running">🟢 Running / In Development</option>
-                  <option value="upcoming">⏳ Upcoming Project</option>
+                  <option value="running">Running / In Development</option>
+                  <option value="upcoming">Upcoming Project</option>
                 </select>
                 {formData.status === "upcoming" && (
                   <p className="text-xs font-semibold text-[#ff5f1a] pt-1">
-                    💡 Note: For upcoming projects, only Project Title is required. A sleek default gray banner will be assigned automatically if no mockup URL is provided.
+                    Note: For upcoming projects, only Project Title is required. A sleek default gray banner will be assigned automatically if no mockup URL is provided.
                   </p>
                 )}
               </div>
